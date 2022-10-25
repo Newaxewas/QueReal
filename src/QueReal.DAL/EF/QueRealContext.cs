@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using QueReal.DAL.Models;
 
 namespace QueReal.DAL.EF
 {
-    internal class QueRealContext : IdentityDbContext<User>
+    internal class QueRealContext : IdentityDbContext<User,IdentityRole<Guid>,Guid>
     {
         public QueRealContext(DbContextOptions<QueRealContext> options) : base(options)
         {
