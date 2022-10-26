@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using QueReal.DAL.Interfaces;
-using QueReal.DAL.Models;
 
 namespace QueReal.DAL.EF
 {

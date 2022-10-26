@@ -1,11 +1,10 @@
 using QueReal.BLL;
-using QueReal.BLL.Interfaces;
 using QueReal.DAL;
 using QueReal.PL;
 
 namespace Queral.Pl;
 
-internal static class Program 
+internal static class Program
 {
     public static void Main(string[] args)
     {
@@ -35,6 +34,16 @@ internal static class Program
         {
             app.UseDeveloperExceptionPage();
         }
+
+        app.UseStaticFiles();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
+        });
 
         return app;
     }

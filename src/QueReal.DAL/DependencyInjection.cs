@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using QueReal.DAL.EF;
 using QueReal.DAL.Interfaces;
-using QueReal.DAL.Models;
 
 namespace QueReal.DAL
 {

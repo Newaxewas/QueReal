@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using QueReal.BLL.Interfaces;
 using QueReal.BLL.Services;
 
 namespace QueReal.BLL

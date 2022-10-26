@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using QueReal.BLL.Interfaces;
 
 namespace QueReal.BLL.Services
 {

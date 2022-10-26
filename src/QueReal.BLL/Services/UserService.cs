@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using QueReal.BLL.Interfaces;
-using QueReal.DAL.Models;
 
 namespace QueReal.BLL.Services
 {
