@@ -1,0 +1,23 @@
+﻿<html>
+<head>
+	<title>QueReal</title>
+	<link rel="stylesheet" href="/styles/shared.css" />
+	<script href="/scripts/shared.js"></script>
+</head>
+<body>
+	<header>
+		@Html.ActionLink("Home", "Index", "Home")
+		@if (User.Identity.IsAuthenticated)
+		{
+			@Html.ActionLink("Logout","Logout","User")
+		}
+		else
+		{
+			@Html.ActionLink("Login", "Login", "User")
+		}
+	</header>
+	<main>
+		@RenderBody()
+	</main>
+</body>
+</html>

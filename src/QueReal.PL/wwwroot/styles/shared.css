@@ -1,0 +1,56 @@
+﻿body {
+    margin: 5%;
+}
+
+main{
+    margin-top: 5px;
+}
+
+span, a {
+    display: inline-block;
+}
+
+input[type=submit] {
+    padding: 5px;
+    background-color: lightgreen;
+    border: solid 1px black;
+    border-radius: 5px;
+}
+
+header a {
+    margin: 5px;
+    padding: 5px;
+    background: cyan;
+    border: solid 1px black;
+    border-radius: 5px;
+    color: black;
+    text-decoration: none;
+}
+
+.form-group {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.form-group label {
+    margin-right: 10px;
+}
+
+.field-validation-error, .validation-summary-errors {
+    margin: 2px;
+    color: black;
+    background-color: lightcoral;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+}
+
+.page-number {
+    margin: 5px;
+    padding: 5px;
+    border: solid 1px black;
+    border-radius: 5px;
+    font-size: large;
+}
+
+
