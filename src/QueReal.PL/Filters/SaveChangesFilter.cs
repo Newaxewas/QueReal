@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using QueReal.BLL.Interfaces;
 
 namespace QueReal.PL.Filters
 {

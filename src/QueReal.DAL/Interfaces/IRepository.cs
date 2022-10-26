@@ -2,7 +2,7 @@
 
 namespace QueReal.DAL.Interfaces
 {
-    internal interface IRepository<T>
+    public interface IRepository<T>
     {
         public Task<Guid> CreateAsync(T entity);
 

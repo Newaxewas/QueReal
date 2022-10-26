@@ -1,4 +1,7 @@
-﻿using QueReal.PL.Filters;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Filters;
+using QueReal.PL.Filters;
 
 namespace QueReal.PL
 {
@@ -8,10 +11,29 @@ namespace QueReal.PL
         {
             services.AddMvc(config =>
             {
+                config.Filters.AddAuthorizeFilter();
+
                 config.Filters.Add<SaveChangesFilter>();
             });
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/User/Login";
+                options.LogoutPath = "/User/Logout";
+            });
+
             return services;
+        }
+
+        private static void AddAuthorizeFilter(this FilterCollection filters)
+        {
+            var policy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+
+            var authFilter = new AuthorizeFilter(policy);
+
+            filters.Add(authFilter);
         }
     }
 }

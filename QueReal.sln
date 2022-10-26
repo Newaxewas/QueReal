@@ -5,25 +5,22 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8C9798AC-BA35-427A-A332-AC34A3A34EEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueReal.BLL", "src\QueReal.BLL\QueReal.BLL.csproj", "{166E7F67-202B-4060-AAEA-1FD8E16EEA13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QueReal.BLL", "src\QueReal.BLL\QueReal.BLL.csproj", "{166E7F67-202B-4060-AAEA-1FD8E16EEA13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueReal.DAL", "src\QueReal.DAL\QueReal.DAL.csproj", "{DB5F410A-31CC-44EE-8768-FB728DD671C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QueReal.DAL", "src\QueReal.DAL\QueReal.DAL.csproj", "{DB5F410A-31CC-44EE-8768-FB728DD671C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueReal.PL", "src\QueReal.PL\QueReal.PL.csproj", "{59B621BE-A9F9-4821-BE13-6033F0463E80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QueReal.PL", "src\QueReal.PL\QueReal.PL.csproj", "{59B621BE-A9F9-4821-BE13-6033F0463E80}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DAEF8567-134B-488F-837B-CC6B50138990}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueReal.BLL.Test", "test\QueReal.BLL.Test\QueReal.BLL.Test.csproj", "{EDF841BB-9FFC-466E-8FCF-7897B5C147FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QueReal.BLL.Test", "test\QueReal.BLL.Test\QueReal.BLL.Test.csproj", "{EDF841BB-9FFC-466E-8FCF-7897B5C147FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueReal.PL.Test", "test\QueReal.PL.Test\QueReal.PL.Test.csproj", "{9C4F7678-5B60-4032-84D0-0E4167A9ADED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QueReal.PL.Test", "test\QueReal.PL.Test\QueReal.PL.Test.csproj", "{9C4F7678-5B60-4032-84D0-0E4167A9ADED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{166E7F67-202B-4060-AAEA-1FD8E16EEA13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -47,11 +44,17 @@ Global
 		{9C4F7678-5B60-4032-84D0-0E4167A9ADED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C4F7678-5B60-4032-84D0-0E4167A9ADED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{166E7F67-202B-4060-AAEA-1FD8E16EEA13} = {8C9798AC-BA35-427A-A332-AC34A3A34EEC}
 		{DB5F410A-31CC-44EE-8768-FB728DD671C4} = {8C9798AC-BA35-427A-A332-AC34A3A34EEC}
 		{59B621BE-A9F9-4821-BE13-6033F0463E80} = {8C9798AC-BA35-427A-A332-AC34A3A34EEC}
 		{EDF841BB-9FFC-466E-8FCF-7897B5C147FB} = {DAEF8567-134B-488F-837B-CC6B50138990}
 		{9C4F7678-5B60-4032-84D0-0E4167A9ADED} = {DAEF8567-134B-488F-837B-CC6B50138990}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {21E80CF0-43C9-4A6E-8773-6660E14623F1}
 	EndGlobalSection
 EndGlobal

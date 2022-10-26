@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using QueReal.BLL.Interfaces;
 using QueReal.BLL.Services;
 
 namespace QueReal.BLL
@@ -10,6 +9,7 @@ namespace QueReal.BLL
         public static IServiceCollection AddBll(this IServiceCollection services, IConfiguration config) 
         {
             services.AddScoped<IDatabaseService, DatabaseService>();
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }
