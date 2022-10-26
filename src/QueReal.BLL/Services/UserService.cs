@@ -13,14 +13,7 @@ namespace QueReal.BLL.Services
             this.signInManager = signInManager;
         }
 
-        public async Task SignInAsync(string email, string password, bool remember)
-        {
-            var user = await userManager.FindByEmailAsync(email);
-
-            await signInManager.PasswordSignInAsync(user, password, remember, lockoutOnFailure: false);
-        }
-
-        public Task RegisterAsync(string email, string password)
+        public Task<bool> RegisterAsync(string email, string password)
         {
             var user = new User
             {
@@ -29,7 +22,16 @@ namespace QueReal.BLL.Services
                 RegisterDate = DateTime.UtcNow,
             };
 
-            return userManager.CreateAsync(user, password);
+            return userManager.CreateAsync(user, password).ContinueWith(task => task.Result.Succeeded);
+        }
+
+        public async Task<bool> SignInAsync(string email, string password, bool remember)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+
+            var result = await signInManager.PasswordSignInAsync(user, password, remember, lockoutOnFailure: false);
+
+            return result.Succeeded;
         }
 
         public Task SignOutAsync()
