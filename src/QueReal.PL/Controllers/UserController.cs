@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using QueReal.PL.Models.User;
 
 namespace QueReal.PL.Controllers
@@ -12,13 +13,13 @@ namespace QueReal.PL.Controllers
             this.userService = userService;
         }
 
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         public ActionResult Login()
         {
             return View(null);
         }
 
-        [HttpPost]
+        [HttpPost, AllowAnonymous]
         public async Task<ActionResult> Login(LoginFormModel formModel)
         {
             if (ModelState.IsValid)
@@ -38,13 +39,13 @@ namespace QueReal.PL.Controllers
             return View(formModel);
         }
 
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         public ActionResult Register()
         {
             return View(null);
         }
 
-        [HttpPost]
+        [HttpPost, AllowAnonymous]
         public async Task<ActionResult> Register(RegisterFormModel formModel)
         {
             if (ModelState.IsValid)

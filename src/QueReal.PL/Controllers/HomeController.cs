@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace QueReal.PL.Controllers
 {
     public class HomeController : Controller
     {
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         public ActionResult Index() 
         {
             return View();

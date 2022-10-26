@@ -29,6 +29,11 @@ namespace QueReal.BLL.Services
         {
             var user = await userManager.FindByEmailAsync(email);
 
+            if (user == null) 
+            {
+                return false;
+            }
+
             var result = await signInManager.PasswordSignInAsync(user, password, remember, lockoutOnFailure: false);
 
             return result.Succeeded;

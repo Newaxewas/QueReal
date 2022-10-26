@@ -40,6 +40,8 @@ internal static class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
+        app.UseRouting();
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
