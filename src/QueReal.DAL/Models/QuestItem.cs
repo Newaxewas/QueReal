@@ -1,9 +1,9 @@
 ﻿namespace QueReal.DAL.Models
 {
-    public class QuestModel
+    public class QuestItem : BaseModel
     {
         public string Title { get; set; }
 
-        public IEnumerable<QuestItemModel> QuestItems { get; set; }
+        public short Progress { get; set; } = 0;
     }
 }
