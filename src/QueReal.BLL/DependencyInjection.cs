@@ -11,7 +11,7 @@ namespace QueReal.BLL
             services.AddScoped<IDatabaseService, DatabaseService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IQuestService, QuestService>();
 
             return services;
         }

@@ -11,9 +11,6 @@ namespace QueReal.DAL.EF.ModelConfigs
                 .HasMaxLength(ModelConstants.Quest_Title_MaxLength)
                 .IsRequired();
 
-            builder.Property(x => x.QuestItems)
-                .IsRequired();
-
             builder.HasMany(x => x.QuestItems).WithOne();
             builder.HasOne(x => x.Creator).WithMany();
 
