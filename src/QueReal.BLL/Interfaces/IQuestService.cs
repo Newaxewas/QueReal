@@ -7,5 +7,7 @@
         public Task<Quest> GetAsync(Guid id);
 
         public Task<IEnumerable<Quest>> GetAllAsync(int pageNumber, int takeCount);
+
+        Task<int> CountAsync(int pageNumber, int pageSize);
     }
 }

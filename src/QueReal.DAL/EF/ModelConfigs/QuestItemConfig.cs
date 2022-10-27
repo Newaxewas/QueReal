@@ -8,7 +8,7 @@ namespace QueReal.DAL.EF.ModelConfigs
         public void Configure(EntityTypeBuilder<QuestItem> builder)
         {
             builder.Property(x => x.Title)
-                .HasMaxLength(ModelConstants.Quest_Title_MaxLength)
+                .HasMaxLength(ModelConstants.QuestItem_Title_MaxLength)
                 .IsRequired();
         }
     }
