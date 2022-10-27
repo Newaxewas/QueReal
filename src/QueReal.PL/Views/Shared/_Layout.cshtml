@@ -9,7 +9,8 @@
 		@Html.ActionLink("Home", "Index", "Home")
 		@if (User.Identity.IsAuthenticated)
 		{
-			@Html.ActionLink("Logout","Logout","User")
+			@Html.ActionLink("My quests", "GetAll", "Quest")
+			@Html.ActionLink("Logout", "Logout", "User")
 		}
 		else
 		{

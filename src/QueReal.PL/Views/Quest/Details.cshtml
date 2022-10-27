@@ -1,0 +1,20 @@
+﻿@using QueReal.PL.Models.Quest
+@model QuestViewModel
+
+<h1>@Model.Title</h1>
+<div>
+	<span>Created at: <span>@Model.CreateTime</span></span>
+	<span>Updated at: <span>@Model.UpdateTime</span></span>
+</div>
+<div>
+	@foreach (var questItem in Model.QuestItems)
+	{
+		<div>
+			<h2>@questItem.Title</h2>
+			<div>
+				<span>@questItem.Progress%</span>
+				<progress max="100" value="@questItem.Progress"></progress>
+			</div>
+		</div>
+	}
+</div>

@@ -1,0 +1,13 @@
+﻿@using QueReal.PL.Models.Quest
+@model QuestFormModel
+
+@using (Html.BeginForm(FormMethod.Post))
+{
+	<div asp-validation-summary="ModelOnly"></div>
+	<div class="form-group">
+		@Html.LabelFor(x => x.Title)<br>
+		@Html.TextBoxFor(x => x.Title)<br>
+		@Html.ValidationMessageFor(x => x.Title)
+	</div>
+	<input type="submit">
+}

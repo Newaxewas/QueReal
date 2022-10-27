@@ -1,8 +1,7 @@
 using QueReal.BLL;
 using QueReal.DAL;
-using QueReal.PL;
 
-namespace Queral.Pl;
+namespace QueReal.PL;
 
 internal static class Program
 {

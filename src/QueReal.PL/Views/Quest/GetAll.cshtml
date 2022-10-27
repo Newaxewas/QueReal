@@ -1,0 +1,18 @@
+﻿@using QueReal.PL.Models.Quest
+@model QuestGetAllViewModel
+
+<h1>My quests</h1>
+<div>
+	@Html.ActionLink("Create quest", "Create", "Quest")
+</div>
+<div>
+	@foreach(var quest in Model.Quests)
+	{
+		<div>
+			<h2>@quest.Title</h2>
+			<span>Created at: <span>@quest.CreateTime</span></span>
+			<span>Updated at: <span>@quest.UpdateTime</span></span>
+		</div>
+	}
+</div>
+<partial name="PageSelector" model="Model" />
