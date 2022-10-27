@@ -13,6 +13,7 @@ namespace QueReal.PL
             {
                 config.Filters.AddAuthorizeFilter();
 
+                config.Filters.Add<CurrentUserServiceInitFilter>();
                 config.Filters.Add<SaveChangesFilter>();
             });
 
