@@ -49,7 +49,7 @@ namespace QueReal.PL.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAll(int pageNumber = 1, int pageSize = pageSize)
+        public async Task<ActionResult> Index(int pageNumber = 1, int pageSize = pageSize)
         {
             var quests = await questService.GetAllAsync(pageNumber, pageSize);
             var questViews = mapper.Map<IEnumerable<QuestViewModel>>(quests);
