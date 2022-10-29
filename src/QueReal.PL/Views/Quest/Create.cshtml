@@ -9,5 +9,15 @@
 		@Html.TextBoxFor(x => x.Title)<br>
 		@Html.ValidationMessageFor(x => x.Title)
 	</div>
+	<div class="form-group">
+		@Html.ValidationMessageFor(x => x.QuestItems)
+		<div id="questItemsControl"></div>
+	</div>
 	<input type="submit">
 }
+
+<script>
+	const items = JSON.parse(`@(Model?.QuestItems != null ? Json.Serialize(Model.QuestItems) : "[]")`).map(item => item.title)
+
+	app.renderQuestCreateControl("questItemsControl", items)
+</script>
