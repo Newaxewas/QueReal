@@ -1,8 +1,12 @@
-﻿body {
+﻿* {
+    border-radius: 5px;
+}
+
+body {
     margin: 5%;
 }
 
-main{
+main {
     margin-top: 5px;
 }
 
@@ -10,21 +14,28 @@ span, a {
     display: inline-block;
 }
 
-input[type=submit] {
-    padding: 5px;
-    background-color: lightgreen;
-    border: solid 1px black;
-    border-radius: 5px;
+input {
+    padding: 4px;
 }
 
-header a {
-    margin: 5px;
+header a, .link-button, .submit-button, .add-button, .remove-button {
+    margin-right: 5px;
     padding: 5px;
-    background: cyan;
     border: solid 1px black;
-    border-radius: 5px;
     color: black;
     text-decoration: none;
+}
+
+header a, .link-button {
+    background: cyan;
+}
+
+.submit-button, .add-button {
+    background-color: lightgreen;
+}
+
+.remove-button {
+    background-color: lightcoral;
 }
 
 .form-group {
@@ -32,9 +43,9 @@ header a {
     margin-bottom: 5px;
 }
 
-.form-group label {
-    margin-right: 10px;
-}
+    .form-group label {
+        margin-right: 10px;
+    }
 
 .field-validation-error, .validation-summary-errors {
     margin: 2px;
@@ -42,15 +53,70 @@ header a {
     background-color: lightcoral;
     padding: 5px;
     border: solid 1px black;
-    border-radius: 5px;
 }
 
 .page-number {
     margin: 5px;
     padding: 5px;
     border: solid 1px black;
-    border-radius: 5px;
     font-size: large;
 }
 
+.date-block {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
+    .date-block span {
+        font-style: italic;
+    }
+
+        .date-block span span {
+            font-style: normal;
+            font-weight: bold;
+        }
+
+.quest-item-block {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 3px;
+    border: solid 1px black;
+    max-width: max-content;
+}
+
+.quest-item-details {
+    margin: 2px;
+    color: black;
+    padding: 10px;
+    border: solid 1px black;
+}
+
+.quest-item-title {
+    margin: 5px;
+    margin-left: 0px;
+    padding: 5px;
+    padding-left: 0px;
+    font-weight: normal;
+    font-size: larger;
+}
+
+.quest-item {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+    .quest-item input {
+        margin-right: 5px;
+    }
+
+.quest-short-view {
+    margin: 5px;
+    margin-left: 0px;
+    color: black;
+    padding: 5px;
+    border: solid 1px black;
+}
+
+    .quest-short-view h2 {
+        margin: 2px;
+    }

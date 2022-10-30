@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using QueReal.PL.Filters;
+using QueReal.PL.Mapper;
 
 namespace QueReal.PL
 {
@@ -13,7 +14,13 @@ namespace QueReal.PL
             {
                 config.Filters.AddAuthorizeFilter();
 
+                config.Filters.Add<CurrentUserServiceInitFilter>();
                 config.Filters.Add<SaveChangesFilter>();
+            });
+
+            services.AddAutoMapper(config => 
+            {
+                config.AddProfile<PlProfile>();
             });
 
             services.ConfigureApplicationCookie(options =>

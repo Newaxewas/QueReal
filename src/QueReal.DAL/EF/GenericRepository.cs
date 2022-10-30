@@ -56,6 +56,11 @@ namespace QueReal.DAL.EF
 
         }
 
+        public Task<T> GetAsync(Expression<Func<T, bool>> predicate) 
+        {
+            return set.FirstOrDefaultAsync(predicate);
+        }
+
         private IQueryable<T> GetConfiguredQueryable(
             Expression<Func<T, bool>> predicate = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderFunc = null,
