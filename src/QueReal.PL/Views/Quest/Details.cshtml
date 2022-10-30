@@ -1,20 +1,21 @@
 ﻿@using QueReal.PL.Models.Quest
 @model QuestViewModel
 
-<h1>@Model.Title</h1>
-<div>
+<h1 class="quest-header">@Model.Title</h1>
+<div class="date-block">
 	<span>Created at: <span>@Model.CreateTime</span></span>
 	<span>Updated at: <span>@Model.UpdateTime</span></span>
 </div>
-<div>
+<h2>Items</h2>
+<table>
 	@foreach (var questItem in Model.QuestItems)
 	{
-		<div>
-			<h2>@questItem.Title</h2>
-			<div>
+		<tr class="quest-item-details">
+			<td class="quest-item-title">@questItem.Title</td>
+			<td>
 				<span>@questItem.Progress%</span>
 				<progress max="100" value="@questItem.Progress"></progress>
-			</div>
-		</div>
+			</td>
+		</tr>
 	}
-</div>
+</table>

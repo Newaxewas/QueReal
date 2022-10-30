@@ -12,12 +12,17 @@ export function QuestCreateControl(props) {
     const onRemoveItem = (index) => setItems(items.filter((element, i) => i !== index));
     const onChangeItem = (index, value) => setItems(items.map((element, i) => index !== i ? element : value));
 
+    if (items.length == 0)
+    {
+        onClickAdd();
+    }
+
     return (
         <>
             <div>
                 {items.map((item, index) => <QuestCreateItemControl value={item} onRemove={onRemoveItem} onChange={onChangeItem} key={index} index={index} />)}
             </div>
-            <button type="button" onClick={onClickAdd}>Add</button>
+            <button className="add-button" type="button" onClick={onClickAdd}>Add</button>
         </>
     );
 }
