@@ -2,7 +2,7 @@
 
 namespace QueReal.PL.Models.Quest
 {
-    public class QuestFormModel
+    public class QuestEditModel
     {
         [Required]
         [MaxLength(ModelConstants.Quest_Title_MaxLength), MinLength(ModelConstants.Quest_Title_MinLength)]
@@ -10,6 +10,6 @@ namespace QueReal.PL.Models.Quest
 
         [Required, MinLength(ModelConstants.Quest_QuestItems_MinLength)]
         [Display(Name = "Items")]
-        public IEnumerable<QuestItemFormModel> QuestItems { get; set; }
+        public List<QuestItemEditModel> QuestItems { get; set; }
     }
 }
