@@ -25,7 +25,7 @@ namespace QueReal.BLL.Services
         }
         public Task<Quest> GetAsync(Guid id)
         {
-            return repository.GetAsync(quest => quest.Id == id);
+            return repository.GetAsync(id);
         }
 
         public Task<IEnumerable<Quest>> GetAllAsync(int pageNumber, int pageSize)
@@ -33,6 +33,35 @@ namespace QueReal.BLL.Services
             var skipCount = (pageNumber - 1) * pageSize;
 
             return repository.GetAllAsync(accessFilterPredicate, OrderByRecentlyUpdated, skipCount, pageSize);
+        }
+
+        public Task EditAsync(Quest quest)
+        {
+            quest.UpdateTime = DateTime.UtcNow;
+
+            return repository.UpdateAsync(quest);
+        }
+
+        public async Task DeleteAsync(Guid questId)
+        {
+            var quest = await repository.GetAsync(questId);
+
+            await repository.DeleteAsync(quest);
+        }
+
+        public async Task SetProgress(Guid questId, Guid questItemId, short progress)
+        {
+            var quest = await repository.GetAsync(questId);
+
+            foreach (var questItem in quest.QuestItems)
+            {
+                if (questItem.Id == questItemId)
+                {
+                    questItem.Progress = progress;
+                }
+            }
+
+            await repository.UpdateAsync(quest);
         }
 
         public Task<int> CountAsync(int pageNumber, int pageSize)
