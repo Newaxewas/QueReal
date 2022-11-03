@@ -16,11 +16,14 @@ namespace QueReal.PL.Mapper
 
         private void CreateQuestMap()
         {
-            CreateMap<QuestFormModel, Quest>();
-            CreateMap<QuestItemFormModel, QuestItem>();
+            CreateMap<QuestCreateModel, Quest>();
+            CreateMap<QuestItemCreateModel, QuestItem>();
 
             CreateMap<Quest, QuestViewModel>().AddTransform(localizeTime);
             CreateMap<QuestItem, QuestItemViewModel>();
+
+            CreateMap<Quest, QuestEditModel>().ReverseMap();
+            CreateMap<QuestItem, QuestItemEditModel>().ReverseMap();
         }
     }
 }

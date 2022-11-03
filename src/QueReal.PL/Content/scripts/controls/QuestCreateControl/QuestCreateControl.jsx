@@ -8,12 +8,11 @@ export function QuestCreateControl(props) {
         setItems(props.items)
     }, [])
 
-    const onClickAdd = () => setItems(items.concat([""]));
+    const onClickAdd = () => setItems(items.concat([{ title: "" }]));
     const onRemoveItem = (index) => setItems(items.filter((element, i) => i !== index));
-    const onChangeItem = (index, value) => setItems(items.map((element, i) => index !== i ? element : value));
+    const onChangeItem = (index, value) => setItems(items.map((element, i) => index !== i ? element : { title: value, id: element.id }));
 
-    if (items.length == 0)
-    {
+    if (items.length == 0) {
         onClickAdd();
     }
 

@@ -6,6 +6,9 @@
 	<span>Created at: <span>@Model.CreateTime</span></span>
 	<span>Updated at: <span>@Model.UpdateTime</span></span>
 </div>
+<div>
+	@Html.ActionLink("Edit", "Edit", "Quest", new { questId = Model.Id })
+</div>
 <h2>Items</h2>
 <table>
 	@foreach (var questItem in Model.QuestItems)
