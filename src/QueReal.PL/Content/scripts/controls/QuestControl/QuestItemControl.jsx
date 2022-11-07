@@ -1,4 +1,4 @@
-﻿export function QuestCreateItemControl(props) {
+﻿export function QuestItemControl(props) {
     function renderItemId() {
         if (props.value.id === undefined) {
             return null;

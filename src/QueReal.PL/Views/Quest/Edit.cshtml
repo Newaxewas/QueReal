@@ -20,5 +20,5 @@
 <script>
 	const items = JSON.parse(`@(Model?.QuestItems != null ? Json.Serialize(Model.QuestItems) : "[]")`);
 
-	app.renderQuestCreateControl("questItemsControl", items);
+	app.renderQuestControl("questItemsControl", items);
 </script>
