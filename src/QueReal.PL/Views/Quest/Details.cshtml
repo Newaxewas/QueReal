@@ -11,18 +11,13 @@
 	<button class="remove-button" id="deleteButton">Delete</button>
 </div>
 <h2>Items</h2>
-<table>
-	@foreach (var questItem in Model.QuestItems)
-	{
-		<tr class="quest-item-details">
-			<td class="quest-item-title">@questItem.Title</td>
-			<td>
-				<span>@questItem.Progress%</span>
-				<progress max="100" value="@questItem.Progress"></progress>
-			</td>
-		</tr>
-	}
-</table>
+<div id="questItemListControl" class="quest-item-block"></div>
+
+<script>
+	const items = JSON.parse(`@(Model?.QuestItems != null ? Json.Serialize(Model.QuestItems) : "[]")`);
+
+	app.renderQuestViewItemListControl("questItemListControl", items);
+</script>
 
 <script>
 	(function() {
@@ -32,7 +27,7 @@
 			deleteButton.disabled = true;
 
 			return fetch("/Quest/Delete?questId=@Model.Id", {
-				method: "POST"
+				method: "DELETE"
 			}).then(response => {
 				if (response.redirected) {
 					location.href = response.url

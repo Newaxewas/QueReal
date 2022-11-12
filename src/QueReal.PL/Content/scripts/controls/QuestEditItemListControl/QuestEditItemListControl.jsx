@@ -4,13 +4,11 @@ import { QuestEditItemControl } from "./QuestEditItemControl.jsx"
 export function QuestEditItemListControl(props) {
     const [items, setItems] = useState([]);
 
-    useEffect(() => {
-        setItems(props.items)
-    }, [])
+    useEffect(() => setItems(props.items), [])
 
     const onClickAdd = () => setItems(items.concat([{ title: "" }]));
     const onRemoveItem = (index) => setItems(items.filter((element, i) => i !== index));
-    const onChangeItem = (index, value) => setItems(items.map((element, i) => index !== i ? element : { title: value, id: element.id }));
+    const onChangeItem = (index, value) => setItems(items.map((element, i) => index !== i ? element : Object.assign({}, element, {title: value})));
 
     if (items.length == 0) {
         onClickAdd();
