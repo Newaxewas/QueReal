@@ -61,6 +61,8 @@ namespace QueReal.BLL.Services
                 }
             }
 
+            quest.UpdateTime = DateTime.UtcNow;
+
             await repository.UpdateAsync(quest);
         }
 

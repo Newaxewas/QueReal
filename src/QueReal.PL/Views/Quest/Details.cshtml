@@ -25,19 +25,21 @@
 </table>
 
 <script>
-	const deleteButton = document.getElementById("deleteButton");
+	(function() {
+		const deleteButton = document.getElementById("deleteButton");
 
-	function deleteQuest() {
-		deleteButton.disabled = true;
+		function deleteQuest() {
+			deleteButton.disabled = true;
 
-		return fetch("/Quest/Delete?questId=@Model.Id", {
-			method: "POST"
-		}).then(response => {
-			if (response.redirected) {
-				location.href = response.url
-			}
-		}).finally(() => deleteButton.disabled = false);
-	}
+			return fetch("/Quest/Delete?questId=@Model.Id", {
+				method: "POST"
+			}).then(response => {
+				if (response.redirected) {
+					location.href = response.url
+				}
+			}).finally(() => deleteButton.disabled = false);
+		}
 
-	deleteButton.onclick = deleteQuest;
+		deleteButton.onclick = deleteQuest;
+	})();
 </script>

@@ -89,6 +89,14 @@ namespace QueReal.PL.Controllers
             return RedirectToAction("Index", "Quest");
         }
 
+        [HttpPost]
+        public async Task<ActionResult> SetProgress(Guid questId, Guid questItemId, short progress)
+        {
+            await questService.SetProgress(questId, questItemId, progress);
+
+            return RedirectToAction("Details", "Quest", new { questId });
+        }
+
         [HttpGet]
         public async Task<ActionResult> Details(Guid questId)
         {
