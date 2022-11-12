@@ -20,7 +20,7 @@
 </script>
 
 <script>
-	(function() {
+	(function () {
 		const deleteButton = document.getElementById("deleteButton");
 
 		function deleteQuest() {
@@ -29,9 +29,7 @@
 			return fetch("/Quest/Delete?questId=@Model.Id", {
 				method: "DELETE"
 			}).then(response => {
-				if (response.redirected) {
-					location.href = response.url
-				}
+				location.href = "/Quest"
 			}).finally(() => deleteButton.disabled = false);
 		}
 

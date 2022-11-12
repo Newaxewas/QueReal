@@ -9,6 +9,6 @@ export function QuestViewItemListControl(props) {
     const onChangeItem = (index, value) => setItems(items.map((element, i) => index !== i ? element : Object.assign({}, element, {progress: value})));
 
     return (
-        props.items.map(item => <QuestViewItemControl value={item} key={item.id} onChange={onChangeItem}/>)
+        items.map((item,index) => <QuestViewItemControl value={item} index={index} key={item.id} onChange={onChangeItem}/>)
     )
 }

@@ -13,12 +13,15 @@ export function QuestViewItemControl(props) {
 
             fetch("/Quest/SetProgress", {
                 method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
                 body: JSON.stringify({
                     questItemId: props.value.id,
                     progress: progress,
                 })
             }).then(() => {
-                props.onChange(progress);
+                props.onChange(props.index, progress);
                 setIsEditMode(false);
             }).finally(() => setIsSendingRequest(false));
         };

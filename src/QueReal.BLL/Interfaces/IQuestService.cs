@@ -12,7 +12,7 @@
 
         public Task DeleteAsync(Guid questId);
 
-        public Task SetProgress(Guid questId, Guid questItemId, short progress);
+        public Task SetProgress(Guid questItemId, short progress);
 
         Task<int> CountAsync(int pageNumber, int pageSize);
     }

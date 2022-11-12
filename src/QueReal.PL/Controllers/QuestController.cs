@@ -81,20 +81,20 @@ namespace QueReal.PL.Controllers
             return View(questEdit);
         }
 
-        [HttpPost]
+        [HttpDelete]
         public async Task<ActionResult> DeleteAsync(Guid questId)
         {
             await questService.DeleteAsync(questId);
 
-            return RedirectToAction("Index", "Quest");
+            return Ok();
         }
 
-        [HttpPost]
-        public async Task<ActionResult> SetProgress(Guid questId, Guid questItemId, short progress)
+        [HttpPut]
+        public async Task<ActionResult> SetProgress([FromBody] QuestSetProgressModel model)
         {
-            await questService.SetProgress(questId, questItemId, progress);
+            await questService.SetProgress(model.QuestItemId, model.Progress);
 
-            return RedirectToAction("Details", "Quest", new { questId });
+            return Ok();
         }
 
         [HttpGet]
