@@ -1,7 +1,7 @@
 ﻿import { useEffect, useState } from "react";
-import { QuestItemControl } from "./QuestItemControl.jsx"
+import { QuestEditItemControl } from "./QuestEditItemControl.jsx"
 
-export function QuestControl(props) {
+export function QuestEditItemListControl(props) {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
@@ -19,7 +19,16 @@ export function QuestControl(props) {
     return (
         <>
             <div>
-                {items.map((item, index) => <QuestItemControl value={item} onRemove={onRemoveItem} onChange={onChangeItem} key={index} index={index} />)}
+                {
+                    items.map((item, index) =>
+                        <QuestEditItemControl
+                            value={item}
+                            onRemove={onRemoveItem}
+                            onChange={onChangeItem}
+                            key={index}
+                            index={index}
+                            editMode={props.editMode} />)
+                }
             </div>
             <button className="add-button" type="button" onClick={onClickAdd}>Add</button>
         </>

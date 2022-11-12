@@ -1,2 +1,2 @@
-﻿export { renderQuestControl } from "./controls/QuestControl/renderQuestControl.jsx";
+﻿export { renderQuestEditItemListControl } from "./controls/QuestEditItemListControl/renderQuestEditItemListControl.jsx";
 
