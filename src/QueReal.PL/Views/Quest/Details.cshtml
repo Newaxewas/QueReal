@@ -6,16 +6,33 @@
 	<span>Created at: <span>@Model.CreateTime</span></span>
 	<span>Updated at: <span>@Model.UpdateTime</span></span>
 </div>
+<div class="utility-buttons">
+	@Html.ActionLink("Edit", "Edit", "Quest", new { questId = Model.Id }, new { @class="update-button"})
+	<button class="remove-button" id="deleteButton">Delete</button>
+</div>
 <h2>Items</h2>
-<table>
-	@foreach (var questItem in Model.QuestItems)
-	{
-		<tr class="quest-item-details">
-			<td class="quest-item-title">@questItem.Title</td>
-			<td>
-				<span>@questItem.Progress%</span>
-				<progress max="100" value="@questItem.Progress"></progress>
-			</td>
-		</tr>
-	}
-</table>
+<div id="questItemListControl" class="quest-item-block"></div>
+
+<script>
+	const items = JSON.parse(`@(Model?.QuestItems != null ? Json.Serialize(Model.QuestItems) : "[]")`);
+
+	app.renderQuestViewItemListControl("questItemListControl", items);
+</script>
+
+<script>
+	(function () {
+		const deleteButton = document.getElementById("deleteButton");
+
+		function deleteQuest() {
+			deleteButton.disabled = true;
+
+			return fetch("/Quest/Delete?questId=@Model.Id", {
+				method: "DELETE"
+			}).then(response => {
+				location.href = "/Quest"
+			}).finally(() => deleteButton.disabled = false);
+		}
+
+		deleteButton.onclick = deleteQuest;
+	})();
+</script>

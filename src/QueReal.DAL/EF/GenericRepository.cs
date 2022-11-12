@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using QueReal.DAL.Interfaces;
 
 namespace QueReal.DAL.EF
@@ -56,9 +56,14 @@ namespace QueReal.DAL.EF
 
         }
 
+        public Task<T> GetAsync(Guid id)
+        {
+            return GetAsync(x => x.Id == id);
+        }
+
         public Task<T> GetAsync(Expression<Func<T, bool>> predicate) 
         {
-            return set.FirstOrDefaultAsync(predicate);
+            return set.Where(x => !x.IsDeleted).FirstOrDefaultAsync(predicate);
         }
 
         private IQueryable<T> GetConfiguredQueryable(
@@ -67,6 +72,8 @@ namespace QueReal.DAL.EF
             int skipCount = 0, int takeCount = 0)
         {
             IQueryable<T> result = set;
+
+            result = result.Where(x => !x.IsDeleted);
 
             if (predicate != null)
             {

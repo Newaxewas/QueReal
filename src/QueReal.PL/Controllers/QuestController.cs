@@ -24,7 +24,7 @@ namespace QueReal.PL.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(QuestFormModel questForm)
+        public async Task<ActionResult> Create(QuestCreateModel questForm)
         {
             if (ModelState.IsValid)
             {
@@ -36,6 +36,65 @@ namespace QueReal.PL.Controllers
             }
 
             return View(questForm);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(Guid questId)
+        {
+            var quest = await questService.GetAsync(questId);
+
+            var questView = mapper.Map<QuestEditModel>(quest);
+
+            return View(questView);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(Guid questId, QuestEditModel questEdit)
+        {
+            if (ModelState.IsValid)
+            {
+                var quest = await questService.GetAsync(questId);
+
+                quest.Title = questEdit.Title;
+
+                var newQuestItemIds = questEdit.QuestItems.Select(x => x.Id).ToHashSet();
+                quest.QuestItems = quest.QuestItems.Where(item => newQuestItemIds.Contains(item.Id)).ToList();
+
+                var questItems = quest.QuestItems.ToDictionary(item => item.Id, item => item);
+                foreach (var newItem in questEdit.QuestItems)
+                {
+                    if (questItems.TryGetValue(newItem.Id, out var existingItem))
+                    {
+                        questItems[newItem.Id].Title = newItem.Title;
+                    }
+                    else
+                    {
+                        quest.QuestItems.Add(new QuestItem { Title = newItem.Title });
+                    }
+                }
+
+                await questService.EditAsync(quest);
+
+                return RedirectToAction("Details", "Quest", new { questId });
+            }
+
+            return View(questEdit);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> DeleteAsync(Guid questId)
+        {
+            await questService.DeleteAsync(questId);
+
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> SetProgress([FromBody] QuestSetProgressModel model)
+        {
+            await questService.SetProgress(model.QuestItemId, model.Progress);
+
+            return Ok();
         }
 
         [HttpGet]
@@ -56,10 +115,10 @@ namespace QueReal.PL.Controllers
 
             var totalCount = await questService.CountAsync(pageNumber, pageSize);
 
-            var viewModel = new QuestGetAllViewModel 
-            { 
+            var viewModel = new QuestGetAllViewModel
+            {
                 PageNumber = pageNumber,
-                PageSize = pageSize,    
+                PageSize = pageSize,
                 TotalItemCount = totalCount,
                 Quests = questViews
             };

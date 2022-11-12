@@ -1,5 +1,5 @@
 ﻿@using QueReal.PL.Models.Quest
-@model QuestCreateModel
+@model QuestEditModel
 
 @using (Html.BeginForm(FormMethod.Post))
 {
@@ -14,7 +14,7 @@
 		<div id="questItemListControl" class="quest-item-block"></div>
 		@Html.ValidationMessageFor(x => x.QuestItems)
 	</div>
-	<button class="submit-button">Create</button>
+	<button class="submit-button">Save</button>
 }
 
 <script>

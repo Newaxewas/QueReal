@@ -18,7 +18,7 @@ input {
     padding: 4px;
 }
 
-header a, .link-button, .submit-button, .add-button, .remove-button {
+header a, .link-button, .submit-button, .add-button, .update-button, .remove-button {
     margin-right: 5px;
     padding: 5px;
     border: solid 1px black;
@@ -32,6 +32,10 @@ header a, .link-button {
 
 .submit-button, .add-button {
     background-color: lightgreen;
+}
+
+.update-button{
+    background-color: gold;
 }
 
 .remove-button {

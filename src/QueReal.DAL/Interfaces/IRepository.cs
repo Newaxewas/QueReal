@@ -10,6 +10,8 @@ namespace QueReal.DAL.Interfaces
 
         public Task DeleteAsync(T entity);
 
+        public Task<T> GetAsync(Guid id);
+
         public Task<T> GetAsync(Expression<Func<T, bool>> predicate);
 
         public Task<IEnumerable<T>> GetAllAsync(
