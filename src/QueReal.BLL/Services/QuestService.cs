@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using QueReal.BLL.Exceptions;
 
 namespace QueReal.BLL.Services
 {
@@ -30,7 +31,7 @@ namespace QueReal.BLL.Services
 		}
 		public Task<Quest> GetAsync(Guid id)
 		{
-			return repository.GetAsync(id);
+			return GetQuestAsync(id);
 		}
 
 		public Task<IEnumerable<Quest>> GetAllAsync(int pageNumber, int pageSize)
@@ -40,16 +41,18 @@ namespace QueReal.BLL.Services
 			return repository.GetAllAsync(accessFilterPredicate, OrderByRecentlyUpdated, skipCount, pageSize);
 		}
 
-		public Task EditAsync(Quest quest)
+		public async Task EditAsync(Quest quest)
 		{
-			quest.UpdateTime = DateTime.UtcNow;
+			await CheckAccessUserToQuest(quest.Id);
 
-			return repository.UpdateAsync(quest);
+			await repository.UpdateAsync(quest);
 		}
 
 		public async Task DeleteAsync(Guid questId)
 		{
-			var quest = await repository.GetAsync(questId);
+			await CheckAccessUserToQuest(questId);
+
+			var quest = await GetQuestAsync(questId);
 
 			await repository.DeleteAsync(quest);
 		}
@@ -57,10 +60,13 @@ namespace QueReal.BLL.Services
 		public async Task SetProgress(Guid questItemId, short progress)
 		{
 			var questItem = await itemRepository.GetAsync(questItemId);
+
+			await CheckAccessUserToQuest(questItem.QuestId);
+
 			questItem.Progress = progress;
 			await itemRepository.UpdateAsync(questItem);
 
-			var quest = await repository.GetAsync(questItem.QuestId);
+			var quest = await GetQuestAsync(questItem.QuestId);
 			quest.UpdateTime = DateTime.UtcNow;
 			await repository.UpdateAsync(quest);
 		}
@@ -75,6 +81,24 @@ namespace QueReal.BLL.Services
 		private static IOrderedQueryable<Quest> OrderByRecentlyUpdated(IQueryable<Quest> quests)
 		{
 			return quests.OrderByDescending(x => x.UpdateTime);
+		}
+
+		private async Task CheckAccessUserToQuest(Guid questId)
+		{
+			var quest = await GetQuestAsync(questId);
+			var currentUserId = currentUserService.UserId;
+
+			if (currentUserId != quest.CreatorId)
+			{
+				throw new AccessDeniedException("You dont creator");
+			}
+		}
+
+		private async Task<Quest> GetQuestAsync(Guid questId)
+		{
+			var quest = await repository.GetAsync(questId);
+
+			return quest ?? throw new NotFoundException();
 		}
 	}
 }
