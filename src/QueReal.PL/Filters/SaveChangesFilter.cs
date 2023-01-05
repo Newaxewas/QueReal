@@ -13,8 +13,12 @@ namespace QueReal.PL.Filters
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            await next();
-            await databaseService.SaveChangesAsync();
-        }
+            var executedContext = await next();
+
+            if (executedContext.Exception == null) 
+            {
+                await databaseService.SaveChangesAsync();
+			}
+		}
     }
 }
