@@ -44,14 +44,18 @@ namespace QueReal.BLL.Services
 
 		public async Task EditAsync(Quest quest)
 		{
-			await CheckAccessUserToQuest(quest.Id);
+			await CheckAccessUserToQuestAsync(quest.Id);
+
+			await CheckQuestCompletionNotApprovedAsync(quest.Id);
 
 			await repository.UpdateAsync(quest);
 		}
 
 		public async Task DeleteAsync(Guid questId)
 		{
-			await CheckAccessUserToQuest(questId);
+			await CheckAccessUserToQuestAsync(questId);
+
+			await CheckQuestCompletionNotApprovedAsync(questId);
 
 			var quest = await GetQuestAsync(questId);
 
@@ -62,7 +66,9 @@ namespace QueReal.BLL.Services
 		{
 			var questItem = await itemRepository.GetAsync(questItemId);
 
-			await CheckAccessUserToQuest(questItem.QuestId);
+			await CheckAccessUserToQuestAsync(questItem.QuestId);
+
+			await CheckQuestCompletionNotApprovedAsync(questItem.QuestId);
 
 			questItem.Progress = progress;
 			await itemRepository.UpdateAsync(questItem);
@@ -74,7 +80,9 @@ namespace QueReal.BLL.Services
 
 		public async Task ApproveCompletionAsync(Guid questId)
 		{
-			await CheckAccessUserToQuest(questId);
+			await CheckAccessUserToQuestAsync(questId);
+
+			await CheckQuestCompletionNotApprovedAsync(questId);
 
 			var quest = await GetQuestAsync(questId);
 
@@ -95,7 +103,7 @@ namespace QueReal.BLL.Services
 			return quests.OrderByDescending(x => x.UpdateTime);
 		}
 
-		private async Task CheckAccessUserToQuest(Guid questId)
+		private async Task CheckAccessUserToQuestAsync(Guid questId)
 		{
 			var quest = await GetQuestAsync(questId);
 			var currentUserId = currentUserService.UserId;
@@ -103,6 +111,16 @@ namespace QueReal.BLL.Services
 			if (currentUserId != quest.CreatorId)
 			{
 				throw new AccessDeniedException("You are not a creator");
+			}
+		}
+
+		private async Task CheckQuestCompletionNotApprovedAsync(Guid questId) 
+		{
+			var quest = await GetQuestAsync(questId);
+
+			if (quest.ApprovedTime != null) 
+			{
+				throw new BadRequestException("Quest already approved");
 			}
 		}
 

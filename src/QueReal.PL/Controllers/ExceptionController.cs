@@ -11,7 +11,13 @@ namespace QueReal.PL.Controllers
 		}
 		
 		[HttpGet]
-		public ActionResult NotFound() 
+		public new ActionResult NotFound() 
+		{
+			return View();
+		}
+
+		[HttpGet]
+		public new ActionResult BadRequest()
 		{
 			return View();
 		}
