@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using AutoMapper;
+using QueReal.BLL.DTO.Quest;
 using QueReal.PL.Models.Quest;
 
 namespace QueReal.PL.Mapper
@@ -16,14 +17,17 @@ namespace QueReal.PL.Mapper
 
         private void CreateQuestMap()
         {
-            CreateMap<QuestCreateModel, Quest>();
-            CreateMap<QuestItemCreateModel, QuestItem>();
+            CreateMap<QuestCreateModel, QuestCreateDto>();
+            CreateMap<QuestItemCreateModel, QuestItemCreateDto>();
 
             CreateMap<Quest, QuestViewModel>().AddTransform(localizeTime);
             CreateMap<QuestItem, QuestItemViewModel>();
 
-            CreateMap<Quest, QuestEditModel>().ReverseMap();
-            CreateMap<QuestItem, QuestItemEditModel>().ReverseMap();
-        }
+            CreateMap<Quest, QuestEditModel>();
+            CreateMap<QuestItem, QuestItemEditModel>();
+
+            CreateMap<QuestEditModel, QuestEditDto>();
+			CreateMap<QuestItemEditModel, QuestItemEditDto>();
+		}
     }
 }
