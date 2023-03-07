@@ -15,5 +15,8 @@
         public const int QuestItem_Title_MinLength = 3;
         public const int QuestItem_Title_MaxLength = 40;
 
+        public const int QuestItem_Progress_MinValue = 0;
+        public const int QuestItem_Progress_MaxValue = 100;
+
     }
 }

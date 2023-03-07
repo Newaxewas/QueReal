@@ -1,10 +1,7 @@
-﻿using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using AutoMapper;
 using QueReal.BLL.DTO.Quest;
 using QueReal.BLL.Exceptions;
-using QueReal.BLL.Interfaces;
-using QueReal.DAL.Models;
 
 namespace QueReal.BLL.Services
 {
@@ -55,8 +52,8 @@ namespace QueReal.BLL.Services
 		{
 			var quest = await GetQuestAsync(questEditDto.Id);
 
-			CheckAccessUserToQuest(quest);
-			CheckQuestCompletionNotApproved(quest);
+			AssertAccessUserToQuest(quest);
+			AssertQuestCompletionNotApproved(quest);
 
 			quest.Title = questEditDto.Title;
 			quest.QuestItems = GetUpdatedQuestItems(quest.QuestItems, questEditDto.QuestItems);
@@ -68,18 +65,18 @@ namespace QueReal.BLL.Services
 		{
 			var quest = await GetQuestAsync(questId);
 
-			CheckAccessUserToQuest(quest);
+			AssertAccessUserToQuest(quest);
 
 			await repository.DeleteAsync(quest);
 		}
 
-		public async Task SetProgressAsync(Guid questItemId, short progress)
+		public async Task SetProgressAsync(Guid questItemId, byte progress)
 		{
 			var questItem = await itemRepository.GetAsync(questItemId);
 			var quest = await GetQuestAsync(questItem.QuestId);
 
-			CheckAccessUserToQuest(quest);
-			CheckQuestCompletionNotApproved(quest);
+			AssertAccessUserToQuest(quest);
+			AssertQuestCompletionNotApproved(quest);
 
 			questItem.Progress = progress;
 			await itemRepository.UpdateAsync(questItem);
@@ -92,8 +89,9 @@ namespace QueReal.BLL.Services
 		{
 			var quest = await GetQuestAsync(questId);
 
-			CheckAccessUserToQuest(quest);
-			CheckQuestCompletionNotApproved(quest);
+			AssertAccessUserToQuest(quest);
+			AssertQuestCompletionNotApproved(quest);
+			AssertAllQuestItemsHaveFullProgress(quest);
 
 			quest.ApprovedTime = DateTime.UtcNow;
 			await repository.UpdateAsync(quest);
@@ -111,7 +109,7 @@ namespace QueReal.BLL.Services
 			return quests.OrderByDescending(x => x.UpdateTime);
 		}
 
-		private void CheckAccessUserToQuest(Quest quest)
+		private void AssertAccessUserToQuest(Quest quest)
 		{
 			var currentUserId = currentUserService.UserId;
 
@@ -121,7 +119,7 @@ namespace QueReal.BLL.Services
 			}
 		}
 
-		private static void CheckQuestCompletionNotApproved(Quest quest)
+		private static void AssertQuestCompletionNotApproved(Quest quest)
 		{
 			if (quest.ApprovedTime != null)
 			{
@@ -129,9 +127,12 @@ namespace QueReal.BLL.Services
 			}
 		}
 
-		private static void CheckAllQuestItemsHaveFullProgress(Quest quest)
+		private static void AssertAllQuestItemsHaveFullProgress(Quest quest)
 		{
-
+			if (quest.QuestItems.Any(x => x.Progress != ModelConstants.QuestItem_Progress_MaxValue)) 
+			{
+				throw new BadRequestException("At least quest item has not full progress");
+			}
 		}
 
 		private async Task<Quest> GetQuestAsync(Guid questId)

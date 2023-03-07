@@ -14,7 +14,7 @@ namespace QueReal.BLL.Interfaces
 
 		Task DeleteAsync(Guid questId);
 
-		Task SetProgressAsync(Guid questItemId, short progress);
+		Task SetProgressAsync(Guid questItemId, byte progress);
 
 		Task ApproveCompletionAsync(Guid questId);
 
