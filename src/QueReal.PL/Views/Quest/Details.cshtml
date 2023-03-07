@@ -14,6 +14,15 @@
 <div class="date-block">
 	<span>Created at: <span>@Model.CreateTime</span></span>
 	<span>Updated at: <span>@Model.UpdateTime</span></span>
+	@if (Model.ApprovedTime.HasValue)
+	{
+		<span>Completion approved at: <span>@Model.ApprovedTime</span></span>
+	}
+	else
+	{
+		<span>Completion not approved</span>
+	}
+
 </div>
 <div class="utility-buttons">
 	<button class="update-button" id="approveCompletionButton" disabled="@(!canApproveCompletion)">Approve completion</button>
