@@ -8,6 +8,8 @@
 
         public DateTime UpdateTime { get; set; } = DateTime.UtcNow;
 
+        public DateTime? ApprovedTime { get; set; }
+
         public List<QuestItem> QuestItems { get; set; }
 
         public Guid CreatorId { get; set; }

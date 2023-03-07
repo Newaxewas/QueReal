@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using QueReal.BLL.Exceptions;
+using QueReal.DAL.Models;
 
 namespace QueReal.BLL.Services
 {
@@ -57,7 +58,7 @@ namespace QueReal.BLL.Services
 			await repository.DeleteAsync(quest);
 		}
 
-		public async Task SetProgress(Guid questItemId, short progress)
+		public async Task SetProgressAsync(Guid questItemId, short progress)
 		{
 			var questItem = await itemRepository.GetAsync(questItemId);
 
@@ -68,6 +69,17 @@ namespace QueReal.BLL.Services
 
 			var quest = await GetQuestAsync(questItem.QuestId);
 			quest.UpdateTime = DateTime.UtcNow;
+			await repository.UpdateAsync(quest);
+		}
+
+		public async Task ApproveCompletion(Guid questId)
+		{
+			await CheckAccessUserToQuest(questId);
+
+			var quest = await GetQuestAsync(questId);
+
+			quest.ApprovedTime = DateTime.UtcNow;
+
 			await repository.UpdateAsync(quest);
 		}
 
@@ -90,7 +102,7 @@ namespace QueReal.BLL.Services
 
 			if (currentUserId != quest.CreatorId)
 			{
-				throw new AccessDeniedException("You dont creator");
+				throw new AccessDeniedException("You are not a creator");
 			}
 		}
 
@@ -100,5 +112,6 @@ namespace QueReal.BLL.Services
 
 			return quest ?? throw new NotFoundException();
 		}
+
 	}
 }

@@ -92,7 +92,7 @@ namespace QueReal.PL.Controllers
         [HttpPut]
         public async Task<ActionResult> SetProgress([FromBody] QuestSetProgressModel model)
         {
-            await questService.SetProgress(model.QuestItemId, model.Progress);
+            await questService.SetProgressAsync(model.QuestItemId, model.Progress);
 
             return Ok();
         }
