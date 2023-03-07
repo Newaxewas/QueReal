@@ -1,7 +1,9 @@
-﻿using System.Linq.Expressions;
+﻿using System.Linq;
+using System.Linq.Expressions;
 using AutoMapper;
 using QueReal.BLL.DTO.Quest;
 using QueReal.BLL.Exceptions;
+using QueReal.BLL.Interfaces;
 using QueReal.DAL.Models;
 
 namespace QueReal.BLL.Services
@@ -49,16 +51,21 @@ namespace QueReal.BLL.Services
 			return repository.GetAllAsync(accessFilterPredicate, OrderByRecentlyUpdated, skipCount, pageSize);
 		}
 
-		public async Task EditAsync(Quest quest)
+		public async Task EditAsync(QuestEditDto questEditDto)
 		{
+			var quest = await GetQuestAsync(questEditDto.Id);
+
 			CheckAccessUserToQuest(quest);
 			CheckQuestCompletionNotApproved(quest);
+
+			quest.Title = questEditDto.Title;
+			quest.QuestItems = GetUpdatedQuestItems(quest.QuestItems, questEditDto.QuestItems);
 
 			await repository.UpdateAsync(quest);
 		}
 
 		public async Task DeleteAsync(Guid questId)
-		{	
+		{
 			var quest = await GetQuestAsync(questId);
 
 			CheckAccessUserToQuest(quest);
@@ -114,17 +121,17 @@ namespace QueReal.BLL.Services
 			}
 		}
 
-		private void CheckQuestCompletionNotApproved(Quest quest) 
+		private static void CheckQuestCompletionNotApproved(Quest quest)
 		{
-			if (quest.ApprovedTime != null) 
+			if (quest.ApprovedTime != null)
 			{
 				throw new BadRequestException("Quest already approved");
 			}
 		}
 
-		private void CheckAllQuestItemsHaveFullProgress(Quest quest) 
+		private static void CheckAllQuestItemsHaveFullProgress(Quest quest)
 		{
-				
+
 		}
 
 		private async Task<Quest> GetQuestAsync(Guid questId)
@@ -132,6 +139,33 @@ namespace QueReal.BLL.Services
 			var quest = await repository.GetAsync(questId);
 
 			return quest ?? throw new NotFoundException();
+		}
+
+		private static List<QuestItem> GetUpdatedQuestItems(IEnumerable<QuestItem> questItems, IEnumerable<QuestItemEditDto> newQuestItemsDtos)
+		{
+			var questItemsWithNewTitles = questItems
+				.Join(
+					newQuestItemsDtos,
+					questItem => questItem.Id,
+					newQuestItemDto => newQuestItemDto.Id,
+					(questItem, newQuestItemDto) => (questItem, newQuestItemDto.Title))
+				.Concat(
+					newQuestItemsDtos
+						.Where(x => x.Id == Guid.Empty)
+						.Select(x => ((QuestItem)null, x.Title)));
+
+			var result = new List<QuestItem>();
+
+			foreach (var (questItem, newTitle) in questItemsWithNewTitles)
+			{
+				var newQuestItem = questItem ?? new QuestItem();
+
+				newQuestItem.Title = newTitle;
+
+				result.Add(newQuestItem);
+			}
+
+			return result;
 		}
 
 	}

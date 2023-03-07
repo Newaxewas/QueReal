@@ -50,36 +50,19 @@ namespace QueReal.PL.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> Edit(Guid questId, QuestEditModel questEdit)
+		public async Task<ActionResult> Edit(Guid questId, QuestEditModel questEditModel)
 		{
 			if (ModelState.IsValid)
 			{
-				var quest = await questService.GetAsync(questId);
+				var questEditDto = mapper.Map<QuestEditDto>(questEditModel);
+				questEditDto.Id = questId;
 
-				quest.Title = questEdit.Title;
-
-				var newQuestItemIds = questEdit.QuestItems.Select(x => x.Id).ToHashSet();
-				quest.QuestItems = quest.QuestItems.Where(item => newQuestItemIds.Contains(item.Id)).ToList();
-
-				var questItems = quest.QuestItems.ToDictionary(item => item.Id, item => item);
-				foreach (var newItem in questEdit.QuestItems)
-				{
-					if (questItems.TryGetValue(newItem.Id, out var existingItem))
-					{
-						questItems[newItem.Id].Title = newItem.Title;
-					}
-					else
-					{
-						quest.QuestItems.Add(new QuestItem { Title = newItem.Title });
-					}
-				}
-
-				await questService.EditAsync(quest);
+				await questService.EditAsync(questEditDto);
 
 				return RedirectToAction("Details", "Quest", new { questId });
 			}
 
-			return View(questEdit);
+			return View(questEditModel);
 		}
 
 		[HttpDelete]

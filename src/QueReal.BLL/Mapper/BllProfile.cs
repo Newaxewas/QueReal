@@ -14,9 +14,6 @@ namespace QueReal.BLL.Mapper
 		{
 			CreateMap<QuestCreateDto, Quest>();
 			CreateMap<QuestItemCreateDto, QuestItem>();
-
-			CreateMap<QuestEditDto, Quest>();
-			CreateMap<QuestEditDto, QuestItem>();
 		}
 	}
 }
