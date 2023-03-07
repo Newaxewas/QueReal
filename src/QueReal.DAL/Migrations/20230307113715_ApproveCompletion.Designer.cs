@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QueReal.DAL.EF;
 
@@ -11,9 +12,10 @@ using QueReal.DAL.EF;
 namespace QueReal.DAL.Migrations
 {
     [DbContext(typeof(QueRealContext))]
-    partial class QueRealContextModelSnapshot : ModelSnapshot
+    [Migration("20230307113715_ApproveCompletion")]
+    partial class ApproveCompletion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
