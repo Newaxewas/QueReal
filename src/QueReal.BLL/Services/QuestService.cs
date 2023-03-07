@@ -1,4 +1,6 @@
 ﻿using System.Linq.Expressions;
+using AutoMapper;
+using QueReal.BLL.DTO.Quest;
 using QueReal.BLL.Exceptions;
 
 namespace QueReal.BLL.Services
@@ -10,24 +12,29 @@ namespace QueReal.BLL.Services
 		private readonly IRepository<Quest> repository;
 		private readonly IRepository<QuestItem> itemRepository;
 		private readonly ICurrentUserService currentUserService;
+		private readonly IMapper mapper;
 
 		public QuestService(
 			IRepository<Quest> repository,
 			IRepository<QuestItem> itemRepository,
-			ICurrentUserService currentUserService)
+			ICurrentUserService currentUserService,
+			IMapper mapper)
 		{
 			this.repository = repository;
 			this.itemRepository = itemRepository;
 			this.currentUserService = currentUserService;
+			this.mapper = mapper;
 
 			accessFilterPredicate = quest => quest.CreatorId == currentUserService.UserId;
 		}
 
-		public Task<Guid> CreateAsync(Quest questModel)
+		public Task<Guid> CreateAsync(QuestCreateDto questCreateDto)
 		{
-			questModel.CreatorId = currentUserService.UserId.Value;
+			var quest = mapper.Map<Quest>(questCreateDto);
 
-			return repository.CreateAsync(questModel);
+			quest.CreatorId = currentUserService.UserId.Value;
+
+			return repository.CreateAsync(quest);
 		}
 		public Task<Quest> GetAsync(Guid id)
 		{
@@ -41,33 +48,52 @@ namespace QueReal.BLL.Services
 			return repository.GetAllAsync(accessFilterPredicate, OrderByRecentlyUpdated, skipCount, pageSize);
 		}
 
-		public async Task EditAsync(Quest quest)
+		public async Task EditAsync(QuestEditDto questEditDto)
 		{
-			await CheckAccessUserToQuest(quest.Id);
+			var quest = await GetQuestAsync(questEditDto.Id);
+
+			AssertAccessUserToQuest(quest);
+			AssertQuestCompletionNotApproved(quest);
+
+			quest.Title = questEditDto.Title;
+			quest.QuestItems = GetUpdatedQuestItems(quest.QuestItems, questEditDto.QuestItems);
 
 			await repository.UpdateAsync(quest);
 		}
 
 		public async Task DeleteAsync(Guid questId)
 		{
-			await CheckAccessUserToQuest(questId);
-
 			var quest = await GetQuestAsync(questId);
+
+			AssertAccessUserToQuest(quest);
 
 			await repository.DeleteAsync(quest);
 		}
 
-		public async Task SetProgress(Guid questItemId, short progress)
+		public async Task SetProgressAsync(Guid questItemId, byte progress)
 		{
 			var questItem = await itemRepository.GetAsync(questItemId);
+			var quest = await GetQuestAsync(questItem.QuestId);
 
-			await CheckAccessUserToQuest(questItem.QuestId);
+			AssertAccessUserToQuest(quest);
+			AssertQuestCompletionNotApproved(quest);
 
 			questItem.Progress = progress;
 			await itemRepository.UpdateAsync(questItem);
 
-			var quest = await GetQuestAsync(questItem.QuestId);
 			quest.UpdateTime = DateTime.UtcNow;
+			await repository.UpdateAsync(quest);
+		}
+
+		public async Task ApproveCompletionAsync(Guid questId)
+		{
+			var quest = await GetQuestAsync(questId);
+
+			AssertAccessUserToQuest(quest);
+			AssertQuestCompletionNotApproved(quest);
+			AssertAllQuestItemsHaveFullProgress(quest);
+
+			quest.ApprovedTime = DateTime.UtcNow;
 			await repository.UpdateAsync(quest);
 		}
 
@@ -83,14 +109,29 @@ namespace QueReal.BLL.Services
 			return quests.OrderByDescending(x => x.UpdateTime);
 		}
 
-		private async Task CheckAccessUserToQuest(Guid questId)
+		private void AssertAccessUserToQuest(Quest quest)
 		{
-			var quest = await GetQuestAsync(questId);
 			var currentUserId = currentUserService.UserId;
 
 			if (currentUserId != quest.CreatorId)
 			{
-				throw new AccessDeniedException("You dont creator");
+				throw new AccessDeniedException("You are not a creator");
+			}
+		}
+
+		private static void AssertQuestCompletionNotApproved(Quest quest)
+		{
+			if (quest.ApprovedTime != null)
+			{
+				throw new BadRequestException("Quest already approved");
+			}
+		}
+
+		private static void AssertAllQuestItemsHaveFullProgress(Quest quest)
+		{
+			if (quest.QuestItems.Any(x => x.Progress != ModelConstants.QuestItem_Progress_MaxValue)) 
+			{
+				throw new BadRequestException("At least quest item has not full progress");
 			}
 		}
 
@@ -100,5 +141,33 @@ namespace QueReal.BLL.Services
 
 			return quest ?? throw new NotFoundException();
 		}
+
+		private static List<QuestItem> GetUpdatedQuestItems(IEnumerable<QuestItem> questItems, IEnumerable<QuestItemEditDto> newQuestItemsDtos)
+		{
+			var questItemsWithNewTitles = questItems
+				.Join(
+					newQuestItemsDtos,
+					questItem => questItem.Id,
+					newQuestItemDto => newQuestItemDto.Id,
+					(questItem, newQuestItemDto) => (questItem, newQuestItemDto.Title))
+				.Concat(
+					newQuestItemsDtos
+						.Where(x => x.Id == Guid.Empty)
+						.Select(x => ((QuestItem)null, x.Title)));
+
+			var result = new List<QuestItem>();
+
+			foreach (var (questItem, newTitle) in questItemsWithNewTitles)
+			{
+				var newQuestItem = questItem ?? new QuestItem();
+
+				newQuestItem.Title = newTitle;
+
+				result.Add(newQuestItem);
+			}
+
+			return result;
+		}
+
 	}
 }

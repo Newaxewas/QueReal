@@ -6,6 +6,6 @@
 
         public string Title { get; set; }
 
-        public short Progress { get; set; }
+        public byte Progress { get; set; }
     }
 }

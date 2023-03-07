@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
+using QueReal.BLL.Mapper;
 using QueReal.PL.Filters;
 using QueReal.PL.Mapper;
 
@@ -22,6 +23,7 @@ namespace QueReal.PL
 
             services.AddAutoMapper(config => 
             {
+                config.AddProfile<BllProfile>();
                 config.AddProfile<PlProfile>();
             });
 
