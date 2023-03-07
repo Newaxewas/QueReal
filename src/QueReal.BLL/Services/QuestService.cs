@@ -1,4 +1,6 @@
 ﻿using System.Linq.Expressions;
+using AutoMapper;
+using QueReal.BLL.DTO.Quest;
 using QueReal.BLL.Exceptions;
 using QueReal.DAL.Models;
 
@@ -11,24 +13,29 @@ namespace QueReal.BLL.Services
 		private readonly IRepository<Quest> repository;
 		private readonly IRepository<QuestItem> itemRepository;
 		private readonly ICurrentUserService currentUserService;
+		private readonly IMapper mapper;
 
 		public QuestService(
 			IRepository<Quest> repository,
 			IRepository<QuestItem> itemRepository,
-			ICurrentUserService currentUserService)
+			ICurrentUserService currentUserService,
+			IMapper mapper)
 		{
 			this.repository = repository;
 			this.itemRepository = itemRepository;
 			this.currentUserService = currentUserService;
+			this.mapper = mapper;
 
 			accessFilterPredicate = quest => quest.CreatorId == currentUserService.UserId;
 		}
 
-		public Task<Guid> CreateAsync(Quest questModel)
+		public Task<Guid> CreateAsync(QuestCreateDto questCreateDto)
 		{
-			questModel.CreatorId = currentUserService.UserId.Value;
+			var quest = mapper.Map<Quest>(questCreateDto);
 
-			return repository.CreateAsync(questModel);
+			quest.CreatorId = currentUserService.UserId.Value;
+
+			return repository.CreateAsync(quest);
 		}
 		public Task<Quest> GetAsync(Guid id)
 		{
@@ -44,20 +51,17 @@ namespace QueReal.BLL.Services
 
 		public async Task EditAsync(Quest quest)
 		{
-			await CheckAccessUserToQuestAsync(quest.Id);
-
-			await CheckQuestCompletionNotApprovedAsync(quest.Id);
+			CheckAccessUserToQuest(quest);
+			CheckQuestCompletionNotApproved(quest);
 
 			await repository.UpdateAsync(quest);
 		}
 
 		public async Task DeleteAsync(Guid questId)
-		{
-			await CheckAccessUserToQuestAsync(questId);
-
-			await CheckQuestCompletionNotApprovedAsync(questId);
-
+		{	
 			var quest = await GetQuestAsync(questId);
+
+			CheckAccessUserToQuest(quest);
 
 			await repository.DeleteAsync(quest);
 		}
@@ -65,29 +69,26 @@ namespace QueReal.BLL.Services
 		public async Task SetProgressAsync(Guid questItemId, short progress)
 		{
 			var questItem = await itemRepository.GetAsync(questItemId);
+			var quest = await GetQuestAsync(questItem.QuestId);
 
-			await CheckAccessUserToQuestAsync(questItem.QuestId);
-
-			await CheckQuestCompletionNotApprovedAsync(questItem.QuestId);
+			CheckAccessUserToQuest(quest);
+			CheckQuestCompletionNotApproved(quest);
 
 			questItem.Progress = progress;
 			await itemRepository.UpdateAsync(questItem);
 
-			var quest = await GetQuestAsync(questItem.QuestId);
 			quest.UpdateTime = DateTime.UtcNow;
 			await repository.UpdateAsync(quest);
 		}
 
 		public async Task ApproveCompletionAsync(Guid questId)
 		{
-			await CheckAccessUserToQuestAsync(questId);
-
-			await CheckQuestCompletionNotApprovedAsync(questId);
-
 			var quest = await GetQuestAsync(questId);
 
-			quest.ApprovedTime = DateTime.UtcNow;
+			CheckAccessUserToQuest(quest);
+			CheckQuestCompletionNotApproved(quest);
 
+			quest.ApprovedTime = DateTime.UtcNow;
 			await repository.UpdateAsync(quest);
 		}
 
@@ -103,9 +104,8 @@ namespace QueReal.BLL.Services
 			return quests.OrderByDescending(x => x.UpdateTime);
 		}
 
-		private async Task CheckAccessUserToQuestAsync(Guid questId)
+		private void CheckAccessUserToQuest(Quest quest)
 		{
-			var quest = await GetQuestAsync(questId);
 			var currentUserId = currentUserService.UserId;
 
 			if (currentUserId != quest.CreatorId)
@@ -114,14 +114,17 @@ namespace QueReal.BLL.Services
 			}
 		}
 
-		private async Task CheckQuestCompletionNotApprovedAsync(Guid questId) 
+		private void CheckQuestCompletionNotApproved(Quest quest) 
 		{
-			var quest = await GetQuestAsync(questId);
-
 			if (quest.ApprovedTime != null) 
 			{
 				throw new BadRequestException("Quest already approved");
 			}
+		}
+
+		private void CheckAllQuestItemsHaveFullProgress(Quest quest) 
+		{
+				
 		}
 
 		private async Task<Quest> GetQuestAsync(Guid questId)

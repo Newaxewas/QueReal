@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using QueReal.BLL.DTO.Quest;
 using QueReal.PL.Models.Quest;
 
 namespace QueReal.PL.Controllers
@@ -24,18 +25,18 @@ namespace QueReal.PL.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> Create(QuestCreateModel questForm)
+		public async Task<ActionResult> Create(QuestCreateModel questCreateModel)
 		{
 			if (ModelState.IsValid)
 			{
-				var quest = mapper.Map<Quest>(questForm);
+				var questCreateDto = mapper.Map<QuestCreateDto>(questCreateModel);
 
-				var questId = await questService.CreateAsync(quest);
+				var questId = await questService.CreateAsync(questCreateDto);
 
 				return RedirectToAction("Details", "Quest", new { questId });
 			}
 
-			return View(questForm);
+			return View(questCreateModel);
 		}
 
 		[HttpGet]
