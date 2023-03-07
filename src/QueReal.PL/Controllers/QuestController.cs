@@ -4,126 +4,134 @@ using QueReal.PL.Models.Quest;
 
 namespace QueReal.PL.Controllers
 {
-    public class QuestController : Controller
-    {
-        private const int pageSize = 10;
+	public class QuestController : Controller
+	{
+		private const int pageSize = 10;
 
-        private readonly IQuestService questService;
-        private readonly IMapper mapper;
+		private readonly IQuestService questService;
+		private readonly IMapper mapper;
 
-        public QuestController(IQuestService questService, IMapper mapper)
-        {
-            this.questService = questService;
-            this.mapper = mapper;
-        }
+		public QuestController(IQuestService questService, IMapper mapper)
+		{
+			this.questService = questService;
+			this.mapper = mapper;
+		}
 
-        [HttpGet]
-        public ActionResult Create()
-        {
-            return View(null);
-        }
+		[HttpGet]
+		public ActionResult Create()
+		{
+			return View(null);
+		}
 
-        [HttpPost]
-        public async Task<ActionResult> Create(QuestCreateModel questForm)
-        {
-            if (ModelState.IsValid)
-            {
-                var quest = mapper.Map<Quest>(questForm);
+		[HttpPost]
+		public async Task<ActionResult> Create(QuestCreateModel questForm)
+		{
+			if (ModelState.IsValid)
+			{
+				var quest = mapper.Map<Quest>(questForm);
 
-                var questId = await questService.CreateAsync(quest);
+				var questId = await questService.CreateAsync(quest);
 
-                return RedirectToAction("Details", "Quest", new { questId });
-            }
+				return RedirectToAction("Details", "Quest", new { questId });
+			}
 
-            return View(questForm);
-        }
+			return View(questForm);
+		}
 
-        [HttpGet]
-        public async Task<ActionResult> Edit(Guid questId)
-        {
-            var quest = await questService.GetAsync(questId);
+		[HttpGet]
+		public async Task<ActionResult> Edit(Guid questId)
+		{
+			var quest = await questService.GetAsync(questId);
 
-            var questView = mapper.Map<QuestEditModel>(quest);
+			var questView = mapper.Map<QuestEditModel>(quest);
 
-            return View(questView);
-        }
+			return View(questView);
+		}
 
-        [HttpPost]
-        public async Task<ActionResult> Edit(Guid questId, QuestEditModel questEdit)
-        {
-            if (ModelState.IsValid)
-            {
-                var quest = await questService.GetAsync(questId);
+		[HttpPost]
+		public async Task<ActionResult> Edit(Guid questId, QuestEditModel questEdit)
+		{
+			if (ModelState.IsValid)
+			{
+				var quest = await questService.GetAsync(questId);
 
-                quest.Title = questEdit.Title;
+				quest.Title = questEdit.Title;
 
-                var newQuestItemIds = questEdit.QuestItems.Select(x => x.Id).ToHashSet();
-                quest.QuestItems = quest.QuestItems.Where(item => newQuestItemIds.Contains(item.Id)).ToList();
+				var newQuestItemIds = questEdit.QuestItems.Select(x => x.Id).ToHashSet();
+				quest.QuestItems = quest.QuestItems.Where(item => newQuestItemIds.Contains(item.Id)).ToList();
 
-                var questItems = quest.QuestItems.ToDictionary(item => item.Id, item => item);
-                foreach (var newItem in questEdit.QuestItems)
-                {
-                    if (questItems.TryGetValue(newItem.Id, out var existingItem))
-                    {
-                        questItems[newItem.Id].Title = newItem.Title;
-                    }
-                    else
-                    {
-                        quest.QuestItems.Add(new QuestItem { Title = newItem.Title });
-                    }
-                }
+				var questItems = quest.QuestItems.ToDictionary(item => item.Id, item => item);
+				foreach (var newItem in questEdit.QuestItems)
+				{
+					if (questItems.TryGetValue(newItem.Id, out var existingItem))
+					{
+						questItems[newItem.Id].Title = newItem.Title;
+					}
+					else
+					{
+						quest.QuestItems.Add(new QuestItem { Title = newItem.Title });
+					}
+				}
 
-                await questService.EditAsync(quest);
+				await questService.EditAsync(quest);
 
-                return RedirectToAction("Details", "Quest", new { questId });
-            }
+				return RedirectToAction("Details", "Quest", new { questId });
+			}
 
-            return View(questEdit);
-        }
+			return View(questEdit);
+		}
 
-        [HttpDelete]
-        public async Task<ActionResult> DeleteAsync(Guid questId)
-        {
-            await questService.DeleteAsync(questId);
+		[HttpDelete]
+		public async Task<ActionResult> Delete(Guid questId)
+		{
+			await questService.DeleteAsync(questId);
 
-            return Ok();
-        }
+			return Ok();
+		}
 
-        [HttpPut]
-        public async Task<ActionResult> SetProgress([FromBody] QuestSetProgressModel model)
-        {
-            await questService.SetProgressAsync(model.QuestItemId, model.Progress);
+		[HttpPut]
+		public async Task<ActionResult> SetProgress([FromBody] QuestSetProgressModel model)
+		{
+			await questService.SetProgressAsync(model.QuestItemId, model.Progress);
 
-            return Ok();
-        }
+			return Ok();
+		}
 
-        [HttpGet]
-        public async Task<ActionResult> Details(Guid questId)
-        {
-            var quest = await questService.GetAsync(questId);
+		[HttpGet]
+		public async Task<ActionResult> Details(Guid questId)
+		{
+			var quest = await questService.GetAsync(questId);
 
-            var questView = mapper.Map<QuestViewModel>(quest);
+			var questView = mapper.Map<QuestViewModel>(quest);
 
-            return View(questView);
-        }
+			return View(questView);
+		}
 
-        [HttpGet]
-        public async Task<ActionResult> Index(int pageNumber = 1, int pageSize = pageSize)
-        {
-            var quests = await questService.GetAllAsync(pageNumber, pageSize);
-            var questViews = mapper.Map<IEnumerable<QuestViewModel>>(quests);
+		[HttpPut]
+		public async Task<ActionResult> ApproveCompletion(Guid questId)
+		{
+			await questService.ApproveCompletionAsync(questId);
 
-            var totalCount = await questService.CountAsync(pageNumber, pageSize);
+			return Ok();
+		}
 
-            var viewModel = new QuestGetAllViewModel
-            {
-                PageNumber = pageNumber,
-                PageSize = pageSize,
-                TotalItemCount = totalCount,
-                Quests = questViews
-            };
+		[HttpGet]
+		public async Task<ActionResult> Index(int pageNumber = 1, int pageSize = pageSize)
+		{
+			var quests = await questService.GetAllAsync(pageNumber, pageSize);
+			var questViews = mapper.Map<IEnumerable<QuestViewModel>>(quests);
 
-            return View(viewModel);
-        }
-    }
+			var totalCount = await questService.CountAsync(pageNumber, pageSize);
+
+			var viewModel = new QuestGetAllViewModel
+			{
+				PageNumber = pageNumber,
+				PageSize = pageSize,
+				TotalItemCount = totalCount,
+				Quests = questViews
+			};
+
+			return View(viewModel);
+		}
+	}
 }

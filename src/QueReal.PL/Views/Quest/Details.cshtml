@@ -8,6 +8,7 @@
 </div>
 <div class="utility-buttons">
 	@Html.ActionLink("Edit", "Edit", "Quest", new { questId = Model.Id }, new { @class="update-button"})
+	<button class="update-button" id="approveCompletionButton">Approve completion</button>
 	<button class="remove-button" id="deleteButton">Delete</button>
 </div>
 <h2>Items</h2>
@@ -34,5 +35,21 @@
 		}
 
 		deleteButton.onclick = deleteQuest;
+	})();
+
+	(function () {
+		const approveCompletionButton = document.getElementById("approveCompletionButton");
+
+		function approveCompletion() {
+			approveCompletionButton.disabled = true;
+
+			return fetch("/Quest/ApproveCompletion?questId=@Model.Id", {
+				method: "PUT"
+			}).then(response => {
+				location.reload();
+			}).finally(() => approveCompletionButton.disabled = false);
+		}
+
+		approveCompletionButton.onclick = approveCompletion;
 	})();
 </script>

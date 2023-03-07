@@ -72,7 +72,7 @@ namespace QueReal.BLL.Services
 			await repository.UpdateAsync(quest);
 		}
 
-		public async Task ApproveCompletion(Guid questId)
+		public async Task ApproveCompletionAsync(Guid questId)
 		{
 			await CheckAccessUserToQuest(questId);
 

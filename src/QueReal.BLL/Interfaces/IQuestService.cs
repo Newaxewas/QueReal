@@ -14,7 +14,7 @@
 
 		Task SetProgressAsync(Guid questItemId, short progress);
 
-		Task ApproveCompletion(Guid questId);
+		Task ApproveCompletionAsync(Guid questId);
 
 		Task<int> CountAsync(int pageNumber, int pageSize);
 	}
