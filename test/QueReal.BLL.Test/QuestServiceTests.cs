@@ -498,7 +498,7 @@ namespace QueReal.BLL.Test
                 Id = questId,
                 Title = "Test",
                 CreatorId = currentUserId,
-                IsDeleted = false,
+                DeletedTime = null,
                 CreateTime = DateTime.UtcNow - TimeSpan.FromMinutes(10),
                 UpdateTime = DateTime.UtcNow - TimeSpan.FromMinutes(5),
                 ApprovedTime = null,
@@ -508,7 +508,7 @@ namespace QueReal.BLL.Test
                     {
                         Id = questItemIds[0],
                         QuestId = questId,
-                        IsDeleted = false,
+                        DeletedTime = null,
                         Progress = 0,
                         Title= "Test item 0",
                     },
@@ -516,7 +516,7 @@ namespace QueReal.BLL.Test
                     {
                         Id = questItemIds[1],
                         QuestId = questId,
-                        IsDeleted = false,
+                        DeletedTime = null,
                         Progress = 10,
                         Title= "Test item 1",
                     }
@@ -530,7 +530,7 @@ namespace QueReal.BLL.Test
             {
                 Id = questItemIds[0],
                 QuestId = questId,
-                IsDeleted = false,
+                DeletedTime = null,
                 Progress = 0,
                 Title = "Test item 0",
             };
