@@ -7,11 +7,11 @@ namespace QueReal.PL.Mapper
 {
     public class PlProfile : Profile
     {
-        private static readonly Expression<Func<DateTime, DateTime>> localizeTime 
+        private static readonly Expression<Func<DateTime, DateTime>> localizeTime
             = (DateTime time) => time.ToLocalTime();
 
         public PlProfile()
-        {          
+        {
             CreateQuestMap();
         }
 

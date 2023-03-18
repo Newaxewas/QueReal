@@ -14,7 +14,7 @@ namespace QueReal.PL.Filters
         public Task OnResourceExecutionAsync(ResourceExecutingContext context, ResourceExecutionDelegate next)
         {
             currentUserService.Init(context.HttpContext.User);
-            
+
             return next();
         }
     }

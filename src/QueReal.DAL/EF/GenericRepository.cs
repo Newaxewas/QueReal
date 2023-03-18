@@ -70,7 +70,7 @@ namespace QueReal.DAL.EF
         private IQueryable<T> GetConfiguredQueryable(
             Expression<Func<T, bool>> predicate = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderFunc = null,
-            int skipCount = 0, 
+            int skipCount = 0,
             int takeCount = 0)
         {
             IQueryable<T> result = dbSet;

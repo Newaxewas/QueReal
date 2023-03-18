@@ -21,7 +21,7 @@ namespace QueReal.PL
                 config.Filters.Add<SaveChangesFilter>();
             });
 
-            services.AddAutoMapper(config => 
+            services.AddAutoMapper(config =>
             {
                 config.AddProfile<BllProfile>();
                 config.AddProfile<PlProfile>();

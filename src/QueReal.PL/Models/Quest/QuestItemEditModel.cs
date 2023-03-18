@@ -8,6 +8,6 @@ namespace QueReal.PL.Models.Quest
 
         [Required]
         [MaxLength(ModelConstants.QuestItem_Title_MaxLength), MinLength(ModelConstants.QuestItem_Title_MinLength)]
-        public string Title { get; set; } 
+        public string Title { get; set; }
     }
 }

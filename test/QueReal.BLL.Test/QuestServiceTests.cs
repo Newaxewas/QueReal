@@ -23,9 +23,9 @@ namespace QueReal.BLL.Test
                 .Select(x => Guid.NewGuid())
                 .ToArray();
 
-        private static readonly string[] newQuestItemTitles 
+        private static readonly string[] newQuestItemTitles
             = Enumerable.Range(0, 2)
-                .Select(x=> $"new title {x}")
+                .Select(x => $"new title {x}")
                 .ToArray();
 
         private Quest quest;
@@ -188,7 +188,7 @@ namespace QueReal.BLL.Test
             quest.QuestItems.Should()
                 .HaveCount(2)
                 .And.Contain(
-                    x => x.Id == questItemIds[0] 
+                    x => x.Id == questItemIds[0]
                         && x.Title == newQuestItemTitles[0])
                 .And.Contain(
                     x => x.Title == newQuestItemTitles[1]);
@@ -248,7 +248,7 @@ namespace QueReal.BLL.Test
             await questService.Invoking(x => x.SetProgressAsync(questItem.Id, targetProgress))
                 .Should().ThrowAsync<NotFoundException>();
         }
-        
+
         [Test]
         public async Task SetProgressAsync_WhenQuestNotFound_ThrowNotFoundException()
         {
@@ -374,7 +374,7 @@ namespace QueReal.BLL.Test
             await questService.Invoking(x => x.ApproveCompletionAsync(questId))
                 .Should().ThrowAsync<BadRequestException>();
         }
-        
+
         [Test]
         public async Task ApproveCompletionAsync_WhenNotAllQuestItemsHaveFullProgress_ThrowBadRequestException()
         {
@@ -397,7 +397,7 @@ namespace QueReal.BLL.Test
 
             await questService.ApproveCompletionAsync(questId);
 
-            quest.ApprovedTime.Should().BeCloseTo(DateTime.UtcNow,TimeSpan.FromSeconds(5));
+            quest.ApprovedTime.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(5));
         }
 
         [Test]
@@ -458,7 +458,7 @@ namespace QueReal.BLL.Test
                 .Setup(x => x.GetAsync(quest.Id))
                 .ReturnsAsync(result);
         }
-        
+
         private void SetQuestItemCanBeFound(bool canBeFound)
         {
             var result = canBeFound ? questItem : null;
@@ -477,7 +477,7 @@ namespace QueReal.BLL.Test
         {
             quest.ApprovedTime = isNotApproved ? null : DateTime.UtcNow;
         }
-        
+
         private void SetAllQuestItemsHaveFullProgress(bool haveFullProgress)
         {
             foreach (var questItem in quest.QuestItems)
@@ -485,7 +485,7 @@ namespace QueReal.BLL.Test
                 questItem.Progress = ModelConstants.QuestItem_Progress_MaxValue;
             }
 
-            if (!haveFullProgress) 
+            if (!haveFullProgress)
             {
                 quest.QuestItems[0].Progress = ModelConstants.QuestItem_Progress_MaxValue - 1;
             }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace QueReal.DAL.EF
 {
-    internal class QueRealContext : IdentityDbContext<User,IdentityRole<Guid>,Guid>
+    internal class QueRealContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public QueRealContext(DbContextOptions<QueRealContext> options) : base(options)
         {

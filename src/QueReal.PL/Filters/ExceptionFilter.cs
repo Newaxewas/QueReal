@@ -16,7 +16,7 @@ namespace QueReal.PL.Filters
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Exception", action = "AccessDenied" }));
                     break;
 
-                case BadRequestException: 
+                case BadRequestException:
                     context.ExceptionHandled = true;
 
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Exception", action = "BadRequest" }));

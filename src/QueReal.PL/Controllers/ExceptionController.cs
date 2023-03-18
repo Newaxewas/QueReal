@@ -5,13 +5,13 @@ namespace QueReal.PL.Controllers
     public class ExceptionController : Controller
     {
         [HttpGet]
-        public ActionResult AccessDenied() 
+        public ActionResult AccessDenied()
         {
             return View();
         }
-        
+
         [HttpGet]
-        public new ActionResult NotFound() 
+        public new ActionResult NotFound()
         {
             return View();
         }

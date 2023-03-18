@@ -24,11 +24,11 @@ namespace QueReal.BLL.Services
 
                 isInitted = true;
             }
-            else 
+            else
             {
                 throw new InvalidOperationException($"Already initted {nameof(CurrentUserService)}");
             }
-            
+
         }
 
         private Guid? GetUserId()
