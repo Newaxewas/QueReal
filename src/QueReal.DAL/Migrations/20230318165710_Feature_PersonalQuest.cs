@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QueReal.DAL.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Feature_PersonalQuest : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -155,6 +155,50 @@ namespace QueReal.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Quest",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ApprovedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DeletedTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Quest", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Quest_AspNetUsers_CreatorId",
+                        column: x => x.CreatorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuestItem",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Progress = table.Column<byte>(type: "tinyint", nullable: false),
+                    QuestId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DeletedTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestItem_Quest_QuestId",
+                        column: x => x.QuestId,
+                        principalTable: "Quest",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -193,6 +237,16 @@ namespace QueReal.DAL.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Quest_CreatorId",
+                table: "Quest",
+                column: "CreatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuestItem_QuestId",
+                table: "QuestItem",
+                column: "QuestId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -213,7 +267,13 @@ namespace QueReal.DAL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "QuestItem");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Quest");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
