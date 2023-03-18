@@ -19,7 +19,7 @@ namespace QueReal.BLL.Test
 		private static readonly Guid otherUserId = Guid.NewGuid();
 
 		private static readonly Guid[] questItemIds
-			= Enumerable.Range(0, 3)
+			= Enumerable.Range(0, 2)
 				.Select(x => Guid.NewGuid())
 				.ToArray();
 
@@ -189,10 +189,9 @@ namespace QueReal.BLL.Test
 				.HaveCount(2)
 				.And.Contain(
 					x => x.Id == questItemIds[0] 
-					&& x.Title == newQuestItemTitles[0])
+						&& x.Title == newQuestItemTitles[0])
 				.And.Contain(
-					x => x.Id == questItemIds[2] 
-					&& x.Title == newQuestItemTitles[1]);
+					x => x.Title == newQuestItemTitles[1]);
 		}
 
 		[Test]
@@ -424,13 +423,15 @@ namespace QueReal.BLL.Test
 			int pageSize,
 			int expectedSkipCount)
 		{
-			await questService.GetAllAsync(pageNumber, pageSize);
+			const int takeCount = 0;
+
+			await questService.CountAsync(pageNumber, pageSize);
 
 			questRepositoryMock.Verify(
 				x => x.CountAsync(
 					It.IsAny<Expression<Func<Quest, bool>>>(),
 					expectedSkipCount,
-					pageSize),
+					takeCount),
 				Times.Once);
 		}
 
@@ -523,7 +524,7 @@ namespace QueReal.BLL.Test
 			};
 		}
 
-		private QuestItem CreateQuestItem()
+		private static QuestItem CreateQuestItem()
 		{
 			return new()
 			{
@@ -569,7 +570,7 @@ namespace QueReal.BLL.Test
 					},
 					new QuestItemEditDto()
 					{
-						Id = questItemIds[2],
+						Id = Guid.Empty,
 						Title = newQuestItemTitles[1]
 					}
 				}

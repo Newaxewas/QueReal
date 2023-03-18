@@ -108,11 +108,11 @@ namespace QueReal.BLL.Services
 			return quests.OrderByDescending(x => x.UpdateTime);
 		}
 
-		private static void AssertObjectExists(BaseModel baseModel)
+		private static void AssertObjectExists<T>(T @object)
 		{
-			if (baseModel == null)
+			if (@object == null)
 			{
-				var typeName = baseModel.GetType().Name;
+				var typeName = typeof(T).Name;
 
 				throw new NotFoundException($"{typeName} not found");
 			}
