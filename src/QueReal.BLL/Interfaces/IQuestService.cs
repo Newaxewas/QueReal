@@ -2,22 +2,22 @@
 
 namespace QueReal.BLL.Interfaces
 {
-	public interface IQuestService
-	{
-		Task<Guid> CreateAsync(QuestCreateDto questCreateDto);
+    public interface IQuestService
+    {
+        Task<Guid> CreateAsync(QuestCreateDto questCreateDto);
 
-		Task<Quest> GetAsync(Guid id);
+        Task<Quest> GetAsync(Guid id);
 
-		Task<IEnumerable<Quest>> GetAllAsync(int pageNumber, int takeCount);
+        Task<IEnumerable<Quest>> GetAllAsync(int pageNumber, int takeCount);
 
-		Task EditAsync(QuestEditDto questEditDto);
+        Task EditAsync(QuestEditDto questEditDto);
 
-		Task DeleteAsync(Guid questId);
+        Task DeleteAsync(Guid questId);
 
-		Task SetProgressAsync(Guid questItemId, byte progress);
+        Task SetProgressAsync(Guid questItemId, byte progress);
 
-		Task ApproveCompletionAsync(Guid questId);
+        Task ApproveCompletionAsync(Guid questId);
 
-		Task<int> CountAsync(int pageNumber, int pageSize);
-	}
+        Task<int> CountAsync(int pageNumber, int pageSize);
+    }
 }

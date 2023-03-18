@@ -2,10 +2,10 @@
 {
     public interface IUserService
     {
-        public Task<bool> RegisterAsync(string email, string password);
+        Task<bool> RegisterAsync(string email, string password);
 
-        public Task<bool> SignInAsync(string email, string password, bool remember);
+        Task<bool> SignInAsync(string email, string password, bool remember);
 
-        public Task SignOutAsync();
+        Task SignOutAsync();
     }
 }

@@ -2,8 +2,8 @@
 {
     public interface IDatabaseService
     {
-        public Task InitDatabaseAsync();
+        Task InitDatabaseAsync();
 
-        public Task SaveChangesAsync();
+        Task SaveChangesAsync();
     }
 }

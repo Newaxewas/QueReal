@@ -1,34 +1,34 @@
 ﻿@using QueReal.PL.Models.Shared
 @model PageSelectorViewModel
 @{
-	var pageNumbers = new SortedSet<int>();
-	pageNumbers.Add(1);
-	pageNumbers.Add(Model.PageCount);
+    var pageNumbers = new SortedSet<int>();
+    pageNumbers.Add(1);
+    pageNumbers.Add(Model.PageCount);
 
-	Action<int> addPage = pageNumber =>
-	{
-		if (pageNumber > 1 && pageNumber < Model.PageCount)
-		{
-			pageNumbers.Add(pageNumber);
-		}
-	};
+    Action<int> addPage = pageNumber =>
+    {
+        if (pageNumber > 1 && pageNumber < Model.PageCount)
+        {
+            pageNumbers.Add(pageNumber);
+        }
+    };
 
-	for (int i = -2; i <= 2; i++)
-	{
-		addPage(Model.PageNumber + i);
-	}
+    for (int i = -2; i <= 2; i++)
+    {
+        addPage(Model.PageNumber + i);
+    }
 }
 
 <div>
-	@foreach (var pageNumber in pageNumbers)
-	{
-		@if (pageNumber == Model.PageNumber)
-		{
-			<span class="page-number">@pageNumber</span>
-		}
-		else
-		{
-			<a href="@Model.GetPageUrl(pageNumber)" class="page-number">@pageNumber</a>
-		}
-	}
+    @foreach (var pageNumber in pageNumbers)
+    {
+        @if (pageNumber == Model.PageNumber)
+        {
+            <span class="page-number">@pageNumber</span>
+        }
+        else
+        {
+            <a href="@Model.GetPageUrl(pageNumber)" class="page-number">@pageNumber</a>
+        }
+    }
 </div>

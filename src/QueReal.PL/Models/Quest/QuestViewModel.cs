@@ -9,8 +9,8 @@
 
         public DateTime UpdateTime { get; set; }
 
-		public DateTime? ApprovedTime { get; set; }
+        public DateTime? ApprovedTime { get; set; }
 
-		public List<QuestItemViewModel> QuestItems { get; set; }
+        public List<QuestItemViewModel> QuestItems { get; set; }
     }
 }

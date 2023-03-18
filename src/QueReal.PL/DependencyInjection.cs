@@ -42,9 +42,9 @@ namespace QueReal.PL
                 .RequireAuthenticatedUser()
                 .Build();
 
-            var authFilter = new AuthorizeFilter(policy);
+            var authorizeFilter = new AuthorizeFilter(policy);
 
-            filters.Add(authFilter);
+            filters.Add(authorizeFilter);
         }
     }
 }

@@ -4,30 +4,30 @@ using QueReal.BLL.Exceptions;
 
 namespace QueReal.PL.Filters
 {
-	public class ExceptionFilter : IExceptionFilter
-	{
-		public void OnException(ExceptionContext context)
-		{
-			switch (context.Exception)
-			{
-				case AccessDeniedException:
-					context.ExceptionHandled = true;
+    public class ExceptionFilter : IExceptionFilter
+    {
+        public void OnException(ExceptionContext context)
+        {
+            switch (context.Exception)
+            {
+                case AccessDeniedException:
+                    context.ExceptionHandled = true;
 
-					context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Exception", action = "AccessDenied" }));
-					break;
+                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Exception", action = "AccessDenied" }));
+                    break;
 
-				case BadRequestException: 
-					context.ExceptionHandled = true;
+                case BadRequestException: 
+                    context.ExceptionHandled = true;
 
-					context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Exception", action = "BadRequest" }));
-					break;
+                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Exception", action = "BadRequest" }));
+                    break;
 
-				case NotFoundException:
-					context.ExceptionHandled = true;
+                case NotFoundException:
+                    context.ExceptionHandled = true;
 
-					context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Exception", action = "NotFound" }));
-					break;
-			}
-		}
-	}
+                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Exception", action = "NotFound" }));
+                    break;
+            }
+        }
+    }
 }

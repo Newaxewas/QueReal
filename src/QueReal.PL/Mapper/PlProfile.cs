@@ -27,7 +27,7 @@ namespace QueReal.PL.Mapper
             CreateMap<QuestItem, QuestItemEditModel>();
 
             CreateMap<QuestEditModel, QuestEditDto>();
-			CreateMap<QuestItemEditModel, QuestItemEditDto>();
-		}
+            CreateMap<QuestItemEditModel, QuestItemEditDto>();
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace QueReal.PL.Filters
             if (executedContext.Exception == null) 
             {
                 await databaseService.SaveChangesAsync();
-			}
-		}
+            }
+        }
     }
 }
