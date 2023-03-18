@@ -36,6 +36,7 @@ namespace QueReal.BLL.Services
 
 			return repository.CreateAsync(quest);
 		}
+
 		public Task<Quest> GetAsync(Guid id)
 		{
 			return GetQuestAsync(id);
@@ -52,7 +53,6 @@ namespace QueReal.BLL.Services
 		{
 			var quest = await GetQuestAsync(questEditDto.Id);
 
-			AssertAccessUserToQuest(quest);
 			AssertQuestCompletionNotApproved(quest);
 
 			quest.Title = questEditDto.Title;
@@ -65,17 +65,17 @@ namespace QueReal.BLL.Services
 		{
 			var quest = await GetQuestAsync(questId);
 
-			AssertAccessUserToQuest(quest);
-
 			await repository.DeleteAsync(quest);
 		}
 
 		public async Task SetProgressAsync(Guid questItemId, byte progress)
 		{
 			var questItem = await itemRepository.GetAsync(questItemId);
+
+			AssertObjectExists(questItem);
+
 			var quest = await GetQuestAsync(questItem.QuestId);
 
-			AssertAccessUserToQuest(quest);
 			AssertQuestCompletionNotApproved(quest);
 
 			questItem.Progress = progress;
@@ -89,7 +89,6 @@ namespace QueReal.BLL.Services
 		{
 			var quest = await GetQuestAsync(questId);
 
-			AssertAccessUserToQuest(quest);
 			AssertQuestCompletionNotApproved(quest);
 			AssertAllQuestItemsHaveFullProgress(quest);
 
@@ -109,7 +108,17 @@ namespace QueReal.BLL.Services
 			return quests.OrderByDescending(x => x.UpdateTime);
 		}
 
-		private void AssertAccessUserToQuest(Quest quest)
+		private static void AssertObjectExists<T>(T @object)
+		{
+			if (@object == null)
+			{
+				var typeName = typeof(T).Name;
+
+				throw new NotFoundException($"{typeName} not found");
+			}
+		}
+		
+		private void AssertUserHasAccessToQuest(Quest quest)
 		{
 			var currentUserId = currentUserService.UserId;
 
@@ -129,7 +138,7 @@ namespace QueReal.BLL.Services
 
 		private static void AssertAllQuestItemsHaveFullProgress(Quest quest)
 		{
-			if (quest.QuestItems.Any(x => x.Progress != ModelConstants.QuestItem_Progress_MaxValue)) 
+			if (quest.QuestItems.Any(x => x.Progress != ModelConstants.QuestItem_Progress_MaxValue))
 			{
 				throw new BadRequestException("At least quest item has not full progress");
 			}
@@ -139,7 +148,10 @@ namespace QueReal.BLL.Services
 		{
 			var quest = await repository.GetAsync(questId);
 
-			return quest ?? throw new NotFoundException();
+			AssertObjectExists(quest);
+			AssertUserHasAccessToQuest(quest);
+
+			return quest;
 		}
 
 		private static List<QuestItem> GetUpdatedQuestItems(IEnumerable<QuestItem> questItems, IEnumerable<QuestItemEditDto> newQuestItemsDtos)

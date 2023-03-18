@@ -6,6 +6,6 @@
 
 		public string Title { get; set; }
 
-		public List<QuestItemEditDto> QuestItems { get; set; }
+		public IEnumerable<QuestItemEditDto> QuestItems { get; set; }
 	}
 }
