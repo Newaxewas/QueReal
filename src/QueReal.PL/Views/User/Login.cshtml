@@ -1,0 +1,22 @@
+﻿@using QueReal.PL.Models.User
+@model LoginFormModel
+
+@using(Html.BeginForm(FormMethod.Post))
+{
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Email)<br>
+        @Html.TextBoxFor(x => x.Email)<br>
+        @Html.ValidationMessageFor(x => x.Email)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Password)<br>
+        @Html.PasswordFor(x => x.Password)<br>
+        @Html.ValidationMessageFor(x => x.Password)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Remember)
+        @Html.CheckBoxFor(x => x.Remember)
+    </div>
+    <button class="submit-button">Login</button>
+}

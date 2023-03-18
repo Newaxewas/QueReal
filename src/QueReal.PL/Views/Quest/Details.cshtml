@@ -1,0 +1,87 @@
+﻿@using QueReal.PL.Models.Quest
+@model QuestViewModel
+
+@{
+    bool canEdit = !Model.ApprovedTime.HasValue;
+
+    bool canApproveCompletion =
+        !Model.ApprovedTime.HasValue
+        && Model.QuestItems
+            .All(x => x.Progress == ModelConstants.QuestItem_Progress_MaxValue);
+}
+
+<h1 class="quest-header">@Model.Title</h1>
+<div class="date-block">
+    <span>Created at: <span>@Model.CreateTime</span></span>
+    <span>Updated at: <span>@Model.UpdateTime</span></span>
+    @if (Model.ApprovedTime.HasValue)
+    {
+        <span>Completion approved at: <span>@Model.ApprovedTime</span></span>
+    }
+    else
+    {
+        <span>Completion not approved</span>
+    }
+
+</div>
+<div class="utility-buttons">
+    <button class="update-button" id="approveCompletionButton" disabled="@(!canApproveCompletion)">Approve completion</button>
+    <button class="update-button" id="editButton" disabled="@(!canEdit)">Edit</button>
+    <button class="remove-button" id="deleteButton">Delete</button>
+</div>
+<h2>Items</h2>
+<div id="questItemListControl" class="quest-item-block"></div>
+
+<script>
+    const items = JSON.parse(`@(Model?.QuestItems != null ? Json.Serialize(Model.QuestItems) : "[]")`);
+
+    app.renderQuestViewItemListControl("questItemListControl", items);
+</script>
+
+<script>
+    (function () {
+
+        {
+            const approveCompletionButton = document.getElementById("approveCompletionButton");
+
+            function approveCompletion() {
+                approveCompletionButton.disabled = true;
+
+                return fetch("/Quest/ApproveCompletion?questId=@Model.Id", {
+                    method: "PUT"
+                }).then(response => {
+                    location.reload();
+                }).finally(() => approveCompletionButton.disabled = false);
+            }
+
+            approveCompletionButton.addEventListener("click", approveCompletion);
+        }
+
+        {
+            const editButton = document.getElementById("editButton");
+
+            function editQuest() {
+                location.href = "@Url.Action("Edit", "Quest", new { questId = Model.Id })";
+            }
+
+            editButton.addEventListener("click", editQuest);
+        }
+
+        {
+            const deleteButton = document.getElementById("deleteButton");
+
+            function deleteQuest() {
+                deleteButton.disabled = true;
+
+                return fetch("/Quest/Delete?questId=@Model.Id", {
+                    method: "DELETE"
+                }).then(response => {
+                    location.href = "/Quest";
+                }).finally(() => deleteButton.disabled = false);
+            }
+
+            deleteButton.addEventListener("click", deleteQuest);
+        }
+
+    })();
+</script>

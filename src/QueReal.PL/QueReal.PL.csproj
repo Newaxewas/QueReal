@@ -15,7 +15,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="$(AssemblyName).Test"/>
+		<InternalsVisibleTo Include="$(AssemblyName).Test" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="package.json">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+		<Exec Condition="$(Configuration) == 'Debug'" Command="call npm run build-dev" WorkingDirectory="$(ProjectDir)" />
+		<Exec Condition="$(Configuration) == 'Release'" Command="call npm run build-prod" WorkingDirectory="$(ProjectDir)" />
+	</Target>
 
 </Project>
