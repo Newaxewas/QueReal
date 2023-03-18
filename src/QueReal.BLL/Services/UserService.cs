@@ -29,7 +29,7 @@ namespace QueReal.BLL.Services
         {
             var user = await userManager.FindByEmailAsync(email);
 
-            if (user == null) 
+            if (user == null)
             {
                 return false;
             }

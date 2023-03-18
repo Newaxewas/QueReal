@@ -2,8 +2,8 @@
 {
     public class QuestCreateDto
     {
-		public string Title { get; set; }
+        public string Title { get; set; }
 
-		public IEnumerable<QuestItemCreateDto> QuestItems { get; set; }
-	}
+        public IEnumerable<QuestItemCreateDto> QuestItems { get; set; }
+    }
 }

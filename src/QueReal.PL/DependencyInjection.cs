@@ -21,7 +21,7 @@ namespace QueReal.PL
                 config.Filters.Add<SaveChangesFilter>();
             });
 
-            services.AddAutoMapper(config => 
+            services.AddAutoMapper(config =>
             {
                 config.AddProfile<BllProfile>();
                 config.AddProfile<PlProfile>();
@@ -42,9 +42,9 @@ namespace QueReal.PL
                 .RequireAuthenticatedUser()
                 .Build();
 
-            var authFilter = new AuthorizeFilter(policy);
+            var authorizeFilter = new AuthorizeFilter(policy);
 
-            filters.Add(authFilter);
+            filters.Add(authorizeFilter);
         }
     }
 }

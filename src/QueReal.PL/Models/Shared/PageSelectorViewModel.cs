@@ -25,7 +25,7 @@
             }
         }
 
-        public string GetPageUrl(int? pageNumber = null, int? pageSize = null) 
+        public string GetPageUrl(int? pageNumber = null, int? pageSize = null)
         {
             pageNumber ??= PageNumber;
             pageSize ??= PageSize;

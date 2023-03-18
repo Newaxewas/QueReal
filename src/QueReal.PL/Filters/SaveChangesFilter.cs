@@ -15,10 +15,10 @@ namespace QueReal.PL.Filters
         {
             var executedContext = await next();
 
-            if (executedContext.Exception == null) 
+            if (executedContext.Exception == null)
             {
                 await databaseService.SaveChangesAsync();
-			}
-		}
+            }
+        }
     }
 }

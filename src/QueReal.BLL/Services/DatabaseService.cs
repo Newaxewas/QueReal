@@ -6,7 +6,7 @@ namespace QueReal.BLL.Services
     {
         private readonly DbContext dbContext;
 
-        public DatabaseService(DbContext dbContext) 
+        public DatabaseService(DbContext dbContext)
         {
             this.dbContext = dbContext;
         }

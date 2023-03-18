@@ -2,11 +2,11 @@
 
 namespace QueReal.PL.Models.Quest
 {
-	public class QuestSetProgressModel
-	{
-		public Guid QuestItemId { get; set; }
+    public class QuestSetProgressModel
+    {
+        public Guid QuestItemId { get; set; }
 
-		[Range(ModelConstants.QuestItem_Progress_MinValue, ModelConstants.QuestItem_Progress_MaxValue)]
-		public byte Progress { get; set; }
-	}
+        [Range(ModelConstants.QuestItem_Progress_MinValue, ModelConstants.QuestItem_Progress_MaxValue)]
+        public byte Progress { get; set; }
+    }
 }

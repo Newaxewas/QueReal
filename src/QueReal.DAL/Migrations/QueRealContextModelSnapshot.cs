@@ -168,8 +168,8 @@ namespace QueReal.DAL.Migrations
                     b.Property<Guid>("CreatorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                    b.Property<DateTime?>("DeletedTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -192,8 +192,8 @@ namespace QueReal.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                    b.Property<DateTime?>("DeletedTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<byte>("Progress")
                         .HasColumnType("tinyint");

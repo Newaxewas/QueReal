@@ -4,13 +4,13 @@ using QueReal.DAL.Interfaces;
 
 namespace QueReal.DAL.EF
 {
-    internal class GenericRepository<T>: IRepository<T> where T : BaseModel
+    internal class GenericRepository<T> : IRepository<T> where T : BaseModel
     {
-        private readonly DbSet<T> set;
+        private readonly DbSet<T> dbSet;
 
-        public GenericRepository(QueRealContext dbContext)
+        public GenericRepository(DbContext dbContext)
         {
-            set = dbContext.Set<T>();
+            dbSet = dbContext.Set<T>();
         }
 
         public Task<Guid> CreateAsync(T entity)
@@ -18,23 +18,23 @@ namespace QueReal.DAL.EF
             var id = Guid.NewGuid();
             entity.Id = id;
 
-            set.Add(entity);
+            dbSet.Add(entity);
 
             return Task.FromResult(id);
         }
 
         public Task DeleteAsync(T entity)
         {
-            entity.IsDeleted = true;
+            entity.DeletedTime = DateTime.UtcNow;
 
-            set.Update(entity);
+            dbSet.Update(entity);
 
             return Task.CompletedTask;
         }
 
         public Task UpdateAsync(T entity)
         {
-            set.Update(entity);
+            dbSet.Update(entity);
 
             return Task.CompletedTask;
         }
@@ -48,7 +48,8 @@ namespace QueReal.DAL.EF
 
         public Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderFunc = null,
-            int skipCount = 0, int takeCount = 0)
+            int skipCount = 0,
+            int takeCount = 0)
         {
             var queryable = GetConfiguredQueryable(predicate, orderFunc, skipCount, takeCount);
 
@@ -61,19 +62,20 @@ namespace QueReal.DAL.EF
             return GetAsync(x => x.Id == id);
         }
 
-        public Task<T> GetAsync(Expression<Func<T, bool>> predicate) 
+        public Task<T> GetAsync(Expression<Func<T, bool>> predicate)
         {
-            return set.Where(x => !x.IsDeleted).FirstOrDefaultAsync(predicate);
+            return dbSet.Where(x => x.DeletedTime == null).FirstOrDefaultAsync(predicate);
         }
 
         private IQueryable<T> GetConfiguredQueryable(
             Expression<Func<T, bool>> predicate = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderFunc = null,
-            int skipCount = 0, int takeCount = 0)
+            int skipCount = 0,
+            int takeCount = 0)
         {
-            IQueryable<T> result = set;
+            IQueryable<T> result = dbSet;
 
-            result = result.Where(x => !x.IsDeleted);
+            result = result.Where(x => x.DeletedTime == null);
 
             if (predicate != null)
             {

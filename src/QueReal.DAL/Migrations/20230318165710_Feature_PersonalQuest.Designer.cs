@@ -12,8 +12,8 @@ using QueReal.DAL.EF;
 namespace QueReal.DAL.Migrations
 {
     [DbContext(typeof(QueRealContext))]
-    [Migration("20221025080720_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20230318165710_Feature_PersonalQuest")]
+    partial class Feature_PersonalQuest
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -155,6 +155,66 @@ namespace QueReal.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("QueReal.DAL.Models.Quest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ApprovedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("Quest");
+                });
+
+            modelBuilder.Entity("QueReal.DAL.Models.QuestItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<byte>("Progress")
+                        .HasColumnType("tinyint");
+
+                    b.Property<Guid>("QuestId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestId");
+
+                    b.ToTable("QuestItem");
+                });
+
             modelBuilder.Entity("QueReal.DAL.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -273,6 +333,33 @@ namespace QueReal.DAL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("QueReal.DAL.Models.Quest", b =>
+                {
+                    b.HasOne("QueReal.DAL.Models.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("QueReal.DAL.Models.QuestItem", b =>
+                {
+                    b.HasOne("QueReal.DAL.Models.Quest", "Quest")
+                        .WithMany("QuestItems")
+                        .HasForeignKey("QuestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Quest");
+                });
+
+            modelBuilder.Entity("QueReal.DAL.Models.Quest", b =>
+                {
+                    b.Navigation("QuestItems");
                 });
 #pragma warning restore 612, 618
         }

@@ -6,7 +6,7 @@ namespace QueReal.BLL
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddBll(this IServiceCollection services, IConfiguration config) 
+        public static IServiceCollection AddBll(this IServiceCollection services, IConfiguration config)
         {
             services.AddScoped<IDatabaseService, DatabaseService>();
             services.AddScoped<IUserService, UserService>();
