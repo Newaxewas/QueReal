@@ -100,7 +100,7 @@ namespace QueReal.BLL.Test
 		}
 
 		[Test]
-		public async Task GetAsync_WhenValidationsPassed_ReturnsQuest()
+		public async Task GetAsync_WhenValidationsPassed_ReturnQuest()
 		{
 			SetQuestCanBeFound(true);
 			SetUserHasAccessToQuest(true);
@@ -165,7 +165,7 @@ namespace QueReal.BLL.Test
 		}
 
 		[Test]
-		public async Task EditAsync_WhenValidationsPassed_SetsNewTitle()
+		public async Task EditAsync_WhenValidationsPassed_SetNewTitle()
 		{
 			SetQuestCanBeFound(true);
 			SetUserHasAccessToQuest(true);
@@ -177,7 +177,7 @@ namespace QueReal.BLL.Test
 		}
 
 		[Test]
-		public async Task EditAsync_WhenValidationsPassed_SetsNewQuestItems()
+		public async Task EditAsync_WhenValidationsPassed_SetNewQuestItems()
 		{
 			SetQuestCanBeFound(true);
 			SetUserHasAccessToQuest(true);
@@ -195,7 +195,7 @@ namespace QueReal.BLL.Test
 		}
 
 		[Test]
-		public async Task EditAsync_WhenValidationsPassed_UpdatesQuest()
+		public async Task EditAsync_WhenValidationsPassed_UpdateQuest()
 		{
 			SetQuestCanBeFound(true);
 			SetUserHasAccessToQuest(true);
@@ -227,7 +227,7 @@ namespace QueReal.BLL.Test
 		}
 
 		[Test]
-		public async Task DeleteAsync_WhenValidationsPassed_DeletesQuest()
+		public async Task DeleteAsync_WhenValidationsPassed_DeleteQuest()
 		{
 			SetQuestCanBeFound(true);
 			SetUserHasAccessToQuest(true);
@@ -286,7 +286,7 @@ namespace QueReal.BLL.Test
 		}
 
 		[Test]
-		public async Task SetProgressAsync_WhenValidationsPassed_SetsNewProgress()
+		public async Task SetProgressAsync_WhenValidationsPassed_SetNewProgress()
 		{
 			questItem.Progress = 31;
 
@@ -301,7 +301,7 @@ namespace QueReal.BLL.Test
 		}
 
 		[Test]
-		public async Task SetProgressAsync_WhenValidationsPassed_UpdatesQuestItem()
+		public async Task SetProgressAsync_WhenValidationsPassed_UpdateQuestItem()
 		{
 			SetQuestItemCanBeFound(true);
 			SetQuestCanBeFound(true);
@@ -314,7 +314,7 @@ namespace QueReal.BLL.Test
 		}
 
 		[Test]
-		public async Task SetProgressAsync_WhenValidationsPassed_SetsUpdateTime()
+		public async Task SetProgressAsync_WhenValidationsPassed_SetUpdateTime()
 		{
 			SetQuestItemCanBeFound(true);
 			SetQuestCanBeFound(true);
@@ -327,7 +327,7 @@ namespace QueReal.BLL.Test
 		}
 
 		[Test]
-		public async Task SetProgressAsync_WhenValidationsPassed_UpdatesQuest()
+		public async Task SetProgressAsync_WhenValidationsPassed_UpdateQuest()
 		{
 			SetQuestItemCanBeFound(true);
 			SetQuestCanBeFound(true);
@@ -388,7 +388,7 @@ namespace QueReal.BLL.Test
 		}
 
 		[Test]
-		public async Task ApproveCompletionAsync_WhenValidationsPassed_SetsApprovedTime()
+		public async Task ApproveCompletionAsync_WhenValidationsPassed_SetApprovedTime()
 		{
 			SetQuestCanBeFound(true);
 			SetUserHasAccessToQuest(true);
@@ -401,7 +401,7 @@ namespace QueReal.BLL.Test
 		}
 
 		[Test]
-		public async Task ApproveCompletionAsync_WhenValidationsPassed_UpdatesQuest()
+		public async Task ApproveCompletionAsync_WhenValidationsPassed_UpdateQuest()
 		{
 			SetQuestCanBeFound(true);
 			SetUserHasAccessToQuest(true);
