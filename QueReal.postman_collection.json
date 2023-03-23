@@ -1,0 +1,277 @@
+{
+	"info": {
+		"_postman_id": "56ee8ef3-9400-4024-b352-8b4930bbbda9",
+		"name": "QueReal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26528661"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"viel.zak@gmail.com\",\r\n    \"password\": \"2z2z2z0903\",\r\n    \"remember\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5273/api/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5273",
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/user/logout",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"andrey2@gmail.com\",\r\n    \"password\": \"password\",\r\n    \"confirmPassword\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/user/register",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Quest",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Test api\",\r\n    \"questItems\": [\r\n        {\r\n            \"title\": \"test item 1\"\r\n        },\r\n        {\r\n            \"title\": \"test item 2\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/quest",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"quest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/quest/1d654892-6119-466b-a062-ee0aca0e7b8c",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"quest",
+								"1d654892-6119-466b-a062-ee0aca0e7b8c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Test api\",\r\n    \"questItems\": [\r\n        {\r\n            \"id\": \"8e0fd43b-0e88-4e3d-9038-08db2bbf4537\",\r\n            \"title\": \"test item new 1\"\r\n        },\r\n        {\r\n            \"id\": null,\r\n            \"title\": \"test item 3\"\r\n        }  \r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/quest/{{questId}}",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"quest",
+								"{{questId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/quest/{{questId}}",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"quest",
+								"{{questId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set Progress",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"questItemId\": \"{{questItemId}}\",\r\n    \"progress\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{serverUrl}}/quest/setProgress",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"quest",
+								"setProgress"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve Completion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{serverUrl}}/quest/{{questId}}/approveCompletion",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"quest",
+								"{{questId}}",
+								"approveCompletion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "serverUrl",
+			"value": "http://localhost:5273/api"
+		},
+		{
+			"key": "questId",
+			"value": "2846bbb1-673d-49d1-8392-6598a29befed"
+		},
+		{
+			"key": "questItemId",
+			"value": "ccef6e52-818e-4985-df2a-08db2bc0d61e",
+			"type": "string"
+		}
+	]
+}
