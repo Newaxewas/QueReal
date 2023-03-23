@@ -8,24 +8,26 @@ namespace QueReal.PL.Filters
     {
         public void OnException(ExceptionContext context)
         {
+            var exceptionMessage = context.Exception.Message;
+
             switch (context.Exception)
             {
                 case AccessDeniedException:
                     context.ExceptionHandled = true;
 
-                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Exception", action = "AccessDenied" }));
+                    context.Result = new ForbidResult(exceptionMessage);
                     break;
 
                 case BadRequestException:
                     context.ExceptionHandled = true;
 
-                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Exception", action = "BadRequest" }));
+                    context.Result = new BadRequestObjectResult(exceptionMessage);
                     break;
 
                 case NotFoundException:
                     context.ExceptionHandled = true;
 
-                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Exception", action = "NotFound" }));
+                    context.Result = new NotFoundObjectResult(exceptionMessage);
                     break;
             }
         }

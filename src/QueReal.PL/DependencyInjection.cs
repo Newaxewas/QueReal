@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using QueReal.BLL.Mapper;
@@ -27,10 +28,16 @@ namespace QueReal.PL
                 config.AddProfile<PlProfile>();
             });
 
-            services.ConfigureApplicationCookie(options =>
+            services.ConfigureApplicationCookie(opt =>
             {
-                options.LoginPath = "/User/Login";
-                options.LogoutPath = "/User/Logout";
+                opt.Events = new()
+                {
+                    OnRedirectToLogin = ctx =>
+                    {
+                        ctx.Response.StatusCode = 401;
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             return services;
