@@ -154,7 +154,7 @@ namespace QueReal.BLL.Services
                     (questItem, newQuestItemDto) => (questItem, newQuestItemDto.Title))
                 .Concat(
                     newQuestItemsDtos
-                        .Where(x => x.Id == Guid.Empty)
+                        .Where(x => x.Id == null)
                         .Select(x => ((QuestItem)null, x.Title)));
 
             var result = new List<QuestItem>();
