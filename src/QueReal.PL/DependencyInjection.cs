@@ -28,9 +28,9 @@ namespace QueReal.PL
                 config.AddProfile<PlProfile>();
             });
 
-            services.ConfigureApplicationCookie(opt =>
+            services.ConfigureApplicationCookie(options =>
             {
-                opt.Events = new()
+                options.Events = new()
                 {
                     OnRedirectToLogin = ctx =>
                     {
