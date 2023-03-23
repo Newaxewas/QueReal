@@ -9,7 +9,6 @@ namespace QueReal.PL.Models.Quest
         public string Title { get; set; }
 
         [Required, MinLength(ModelConstants.Quest_QuestItems_MinLength)]
-        [Display(Name = "Items")]
         public IEnumerable<QuestItemCreateModel> QuestItems { get; set; }
     }
 }
