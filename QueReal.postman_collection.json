@@ -24,14 +24,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5273/api/user/login",
-							"protocol": "http",
+							"raw": "{{serverUrl}}/user/login",
 							"host": [
-								"localhost"
+								"{{serverUrl}}"
 							],
-							"port": "5273",
 							"path": [
-								"api",
 								"user",
 								"login"
 							]
@@ -121,13 +118,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{serverUrl}}/quest/1d654892-6119-466b-a062-ee0aca0e7b8c",
+							"raw": "{{serverUrl}}/quest/{{questId}}",
 							"host": [
 								"{{serverUrl}}"
 							],
 							"path": [
 								"quest",
-								"1d654892-6119-466b-a062-ee0aca0e7b8c"
+								"{{questId}}"
 							]
 						}
 					},
@@ -232,7 +229,26 @@
 					"name": "Get All",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{serverUrl}}/quest?pageNumber=1&pageSize=5",
+							"host": [
+								"{{serverUrl}}"
+							],
+							"path": [
+								"quest"
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
+							]
+						}
 					},
 					"response": []
 				}

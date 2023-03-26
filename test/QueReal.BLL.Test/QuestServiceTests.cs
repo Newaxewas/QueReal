@@ -570,7 +570,7 @@ namespace QueReal.BLL.Test
                     },
                     new QuestItemEditDto()
                     {
-                        Id = Guid.Empty,
+                        Id = null,
                         Title = newQuestItemTitles[1]
                     }
                 }
