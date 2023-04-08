@@ -2,6 +2,6 @@
 {
     public class QuestCreateResponse
     {
-        public Guid QuestId { get; set; }
+        public Guid Id { get; set; }
     }
 }

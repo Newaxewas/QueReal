@@ -17,7 +17,7 @@ namespace QueReal.PL.Controllers
             this.mapper = mapper;
         }
 
-        [HttpPost("/create")]
+        [HttpPost("create")]
         public async Task<ActionResult<QuestCreateResponse>> Create(QuestCreateRequest request)
         {
             var questCreateDto = mapper.Map<QuestCreateDto>(request);
@@ -26,14 +26,14 @@ namespace QueReal.PL.Controllers
 
             var response = new QuestCreateResponse
             {
-                QuestId = questId
+                Id = questId
             };
 
             return Ok(response);
         }
 
-        [HttpGet("/get")]
-        public async Task<ActionResult<QuestGetResponse>> Get(QuestGetRequest request)
+        [HttpGet("get")]
+        public async Task<ActionResult<QuestGetResponse>> Get([FromQuery] QuestGetRequest request)
         {
             var quest = await questService.GetAsync(request.Id);
 
@@ -42,7 +42,7 @@ namespace QueReal.PL.Controllers
             return Ok(response);
         }
 
-        [HttpPut("/edit")]
+        [HttpPut("edit")]
         public async Task<ActionResult> Edit(QuestEditRequest request)
         {
             var questEditDto = mapper.Map<QuestEditDto>(request);
@@ -52,7 +52,7 @@ namespace QueReal.PL.Controllers
             return Ok();
         }
 
-        [HttpDelete("/delete")]
+        [HttpDelete("delete")]
         public async Task<ActionResult> Delete(QuestDeleteRequest request)
         {
             await questService.DeleteAsync(request.Id);
@@ -60,7 +60,7 @@ namespace QueReal.PL.Controllers
             return Ok();
         }
 
-        [HttpPut("/setProgress")]
+        [HttpPut("setProgress")]
         public async Task<ActionResult> SetProgress(QuestSetProgressRequest request)
         {
             await questService.SetProgressAsync(request.QuestItemId, request.Progress);
@@ -68,7 +68,7 @@ namespace QueReal.PL.Controllers
             return Ok();
         }
 
-        [HttpPost("/approveCompletion")]
+        [HttpPost("approveCompletion")]
         public async Task<ActionResult> ApproveCompletion(QuestApproveCompletionRequest request)
         {
             await questService.ApproveCompletionAsync(request.Id);
@@ -76,7 +76,7 @@ namespace QueReal.PL.Controllers
             return Ok();
         }
 
-        [HttpGet("/getAll")]
+        [HttpPost("getAll")]
         public async Task<ActionResult<QuestGetAllResponse>> GetAll(QuestGetAllRequest request)
         {
             var quests = await questService.GetAllAsync(request.PageNumber, request.PageSize);
