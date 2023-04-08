@@ -7,8 +7,8 @@ namespace QueReal.PL.Test
     [TestFixture]
     public class UserControllerTests
     {
-        private LoginFormModel loginFormModel;
-        private RegisterFormModel registerFormModel;
+        private LoginRequest loginRequest;
+        private RegisterRequest registerRequest;
 
         private Mock<IUserService> userServiceMock;
 
@@ -17,8 +17,8 @@ namespace QueReal.PL.Test
         [SetUp]
         public void SetUp()
         {
-            loginFormModel = CreateLoginFormModel();
-            registerFormModel = CreateRegisterFormModel();
+            loginRequest = CreateLoginRequest();
+            registerRequest = CreateRegisterRequest();
 
             userServiceMock = new();
 
@@ -30,7 +30,7 @@ namespace QueReal.PL.Test
         {
             SetSignInSuccessful(false);
 
-            var result = await userController.Login(loginFormModel);
+            var result = await userController.Login(loginRequest);
 
             PlTestHelper.AssertCorrectUnauthorizedResult(result);
         }
@@ -40,7 +40,7 @@ namespace QueReal.PL.Test
         {
             SetSignInSuccessful(true);
 
-            var result = await userController.Login(loginFormModel);
+            var result = await userController.Login(loginRequest);
 
             PlTestHelper.AssertCorrectOkResult(result);
         }
@@ -50,7 +50,7 @@ namespace QueReal.PL.Test
         {
             SetRegisterSuccessful(false);
 
-            var result = await userController.Register(registerFormModel);
+            var result = await userController.Register(registerRequest);
 
             PlTestHelper.AssertCorrectBadRequestResult(result);
         }
@@ -60,7 +60,7 @@ namespace QueReal.PL.Test
         {
             SetRegisterSuccessful(true);
 
-            var result = await userController.Register(registerFormModel);
+            var result = await userController.Register(registerRequest);
 
             PlTestHelper.AssertCorrectOkResult(result);
         }
@@ -86,9 +86,9 @@ namespace QueReal.PL.Test
             userServiceMock
                 .Setup(
                     x => x.SignInAsync(
-                        loginFormModel.Email,
-                        loginFormModel.Password,
-                        loginFormModel.Remember))
+                        loginRequest.Email,
+                        loginRequest.Password,
+                        loginRequest.Remember))
                 .ReturnsAsync(isSuccessful);
         }
         private void SetRegisterSuccessful(bool isSuccessful)
@@ -96,12 +96,12 @@ namespace QueReal.PL.Test
             userServiceMock
                 .Setup(
                     x => x.RegisterAsync(
-                        registerFormModel.Email,
-                        registerFormModel.Password))
+                        registerRequest.Email,
+                        registerRequest.Password))
                 .ReturnsAsync(isSuccessful);
         }
 
-        private static LoginFormModel CreateLoginFormModel()
+        private static LoginRequest CreateLoginRequest()
         {
             return new()
             {
@@ -111,7 +111,7 @@ namespace QueReal.PL.Test
             };
         }
 
-        private static RegisterFormModel CreateRegisterFormModel()
+        private static RegisterRequest CreateRegisterRequest()
         {
             return new()
             {

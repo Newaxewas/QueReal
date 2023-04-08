@@ -1,6 +1,6 @@
 ﻿namespace QueReal.PL.Models.Quest
 {
-    public class QuestViewModel
+    public class QuestGetResponse
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
@@ -11,6 +11,6 @@
 
         public DateTime? ApprovedTime { get; set; }
 
-        public List<QuestItemViewModel> QuestItems { get; set; }
+        public List<QuestItemGetResponse> QuestItems { get; set; }
     }
 }

@@ -101,12 +101,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{serverUrl}}/quest",
+							"raw": "{{serverUrl}}/quest/create",
 							"host": [
 								"{{serverUrl}}"
 							],
 							"path": [
-								"quest"
+								"quest",
+								"create"
 							]
 						}
 					},
@@ -118,13 +119,19 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{serverUrl}}/quest/{{questId}}",
+							"raw": "{{serverUrl}}/quest/get?id={{questId}}",
 							"host": [
 								"{{serverUrl}}"
 							],
 							"path": [
 								"quest",
-								"{{questId}}"
+								"get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{questId}}"
+								}
 							]
 						}
 					},
@@ -137,7 +144,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Test api\",\r\n    \"questItems\": [\r\n        {\r\n            \"id\": \"8e0fd43b-0e88-4e3d-9038-08db2bbf4537\",\r\n            \"title\": \"test item new 1\"\r\n        },\r\n        {\r\n            \"id\": null,\r\n            \"title\": \"test item 3\"\r\n        }  \r\n    ]\r\n}",
+							"raw": "{\r\n    \"id\": \"{{questId}}\",\r\n    \"title\": \"Test api\",\r\n    \"questItems\": [\r\n        {\r\n            \"id\": \"{{questItemId}}\",\r\n            \"title\": \"test item new 1\"\r\n        },\r\n        {\r\n            \"id\": null,\r\n            \"title\": \"test item 3\"\r\n        }  \r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -145,13 +152,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{serverUrl}}/quest/{{questId}}",
+							"raw": "{{serverUrl}}/quest/edit",
 							"host": [
 								"{{serverUrl}}"
 							],
 							"path": [
 								"quest",
-								"{{questId}}"
+								"edit"
 							]
 						}
 					},
@@ -162,14 +169,23 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"{{questId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{serverUrl}}/quest/{{questId}}",
+							"raw": "{{serverUrl}}/quest/delete",
 							"host": [
 								"{{serverUrl}}"
 							],
 							"path": [
 								"quest",
-								"{{questId}}"
+								"delete"
 							]
 						}
 					},
@@ -209,16 +225,20 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\r\n    \"id\": \"{{questId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
-							"raw": "{{serverUrl}}/quest/{{questId}}/approveCompletion",
+							"raw": "{{serverUrl}}/quest/approveCompletion",
 							"host": [
 								"{{serverUrl}}"
 							],
 							"path": [
 								"quest",
-								"{{questId}}",
 								"approveCompletion"
 							]
 						}
@@ -228,25 +248,25 @@
 				{
 					"name": "Get All",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pageNumber\": 1,\r\n    \"pageSize\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{serverUrl}}/quest?pageNumber=1&pageSize=5",
+							"raw": "{{serverUrl}}/quest/getAll",
 							"host": [
 								"{{serverUrl}}"
 							],
 							"path": [
-								"quest"
-							],
-							"query": [
-								{
-									"key": "pageNumber",
-									"value": "1"
-								},
-								{
-									"key": "pageSize",
-									"value": "5"
-								}
+								"quest",
+								"getAll"
 							]
 						}
 					},

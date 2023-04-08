@@ -17,78 +17,80 @@ namespace QueReal.PL.Controllers
             this.mapper = mapper;
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Guid>> Create(QuestCreateModel questCreateModel)
+        [HttpPost("create")]
+        public async Task<ActionResult<QuestCreateResponse>> Create(QuestCreateRequest request)
         {
-            var questCreateDto = mapper.Map<QuestCreateDto>(questCreateModel);
+            var questCreateDto = mapper.Map<QuestCreateDto>(request);
 
             var questId = await questService.CreateAsync(questCreateDto);
 
-            return Ok(questId);
+            var response = new QuestCreateResponse
+            {
+                Id = questId
+            };
+
+            return Ok(response);
         }
 
-        [HttpGet("{questId}")]
-        public async Task<ActionResult<QuestViewModel>> Get(Guid questId)
+        [HttpGet("get")]
+        public async Task<ActionResult<QuestGetResponse>> Get([FromQuery] QuestGetRequest request)
         {
-            var quest = await questService.GetAsync(questId);
+            var quest = await questService.GetAsync(request.Id);
 
-            var questViewModel = mapper.Map<QuestViewModel>(quest);
+            var response = mapper.Map<QuestGetResponse>(quest);
 
-            return Ok(questViewModel);
+            return Ok(response);
         }
 
-        [HttpPut("{questId}")]
-        public async Task<ActionResult> Edit(Guid questId, QuestEditModel questEditModel)
+        [HttpPut("edit")]
+        public async Task<ActionResult> Edit(QuestEditRequest request)
         {
-            var questEditDto = mapper.Map<QuestEditDto>(questEditModel);
-            questEditDto.Id = questId;
+            var questEditDto = mapper.Map<QuestEditDto>(request);
 
             await questService.EditAsync(questEditDto);
 
             return Ok();
         }
 
-        [HttpDelete("{questId}")]
-        public async Task<ActionResult> Delete(Guid questId)
+        [HttpDelete("delete")]
+        public async Task<ActionResult> Delete(QuestDeleteRequest request)
         {
-            await questService.DeleteAsync(questId);
+            await questService.DeleteAsync(request.Id);
 
             return Ok();
         }
 
         [HttpPut("setProgress")]
-        public async Task<ActionResult> SetProgress(QuestSetProgressModel model)
+        public async Task<ActionResult> SetProgress(QuestSetProgressRequest request)
         {
-            await questService.SetProgressAsync(model.QuestItemId, model.Progress);
+            await questService.SetProgressAsync(request.QuestItemId, request.Progress);
 
             return Ok();
         }
 
-        [HttpPost("{questId}/approveCompletion")]
-        public async Task<ActionResult> ApproveCompletion(Guid questId)
+        [HttpPost("approveCompletion")]
+        public async Task<ActionResult> ApproveCompletion(QuestApproveCompletionRequest request)
         {
-            await questService.ApproveCompletionAsync(questId);
+            await questService.ApproveCompletionAsync(request.Id);
 
             return Ok();
         }
 
-        [HttpGet]
-        public async Task<ActionResult<QuestGetAllViewModel>> GetAll(int pageNumber, int pageSize)
+        [HttpPost("getAll")]
+        public async Task<ActionResult<QuestGetAllResponse>> GetAll(QuestGetAllRequest request)
         {
-            var quests = await questService.GetAllAsync(pageNumber, pageSize);
-            var questViews = mapper.Map<IEnumerable<QuestViewModel>>(quests);
+            var quests = await questService.GetAllAsync(request.PageNumber, request.PageSize);
+            var questViews = mapper.Map<IEnumerable<QuestGetResponse>>(quests);
 
-            var totalCount = await questService.CountAsync(pageNumber, pageSize);
+            var totalCount = await questService.CountAsync(request.PageNumber, request.PageSize);
 
-            var viewModel = new QuestGetAllViewModel
+            var response = new QuestGetAllResponse
             {
-                PageNumber = pageNumber,
-                PageSize = pageSize,
                 TotalItemCount = totalCount,
                 Quests = questViews
             };
 
-            return Ok(viewModel);
+            return Ok(response);
         }
     }
 }
