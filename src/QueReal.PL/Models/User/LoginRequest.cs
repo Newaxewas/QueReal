@@ -2,7 +2,7 @@
 
 namespace QueReal.PL.Models.User
 {
-    public class RegisterFormModel
+    public class LoginRequest
     {
         [Required, EmailAddress]
         public string Email { get; set; }
@@ -10,8 +10,6 @@ namespace QueReal.PL.Models.User
         [Required, MinLength(ModelConstants.User_Password_MinLength), MaxLength(ModelConstants.User_Password_MaxLength)]
         public string Password { get; set; }
 
-        [Display(Name = "Confirm password")]
-        [Compare(nameof(Password))]
-        public string ConfirmPassword { get; set; }
+        public bool Remember { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace QueReal.PL.Controllers
         }
 
         [HttpPost("login"), AllowAnonymous]
-        public async Task<ActionResult> Login(LoginFormModel formModel)
+        public async Task<ActionResult> Login(LoginRequest formModel)
         {
             var signedIn = await userService.SignInAsync(formModel.Email, formModel.Password, formModel.Remember);
 
@@ -23,7 +23,7 @@ namespace QueReal.PL.Controllers
         }
 
         [HttpPost("register"), AllowAnonymous]
-        public async Task<ActionResult> Register(RegisterFormModel formModel)
+        public async Task<ActionResult> Register(RegisterRequest formModel)
         {
             var isRegistred = await userService.RegisterAsync(formModel.Email, formModel.Password);
 

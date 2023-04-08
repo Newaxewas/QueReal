@@ -1,6 +1,6 @@
 ﻿namespace QueReal.PL.Models.Quest
 {
-    public class QuestItemViewModel
+    public class QuestItemGetResponse
     {
         public Guid Id { get; set; }
 

@@ -13,7 +13,7 @@ namespace QueReal.PL.Test
         {
             result.Should().BeOfType<UnauthorizedObjectResult>();
         }
-        
+
         public static void AssertCorrectBadRequestResult(ActionResult result)
         {
             result.Should().BeOfType<BadRequestObjectResult>();
