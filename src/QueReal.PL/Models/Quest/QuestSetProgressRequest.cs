@@ -2,7 +2,7 @@
 
 namespace QueReal.PL.Models.Quest
 {
-    public class QuestSetProgressModel
+    public class QuestSetProgressRequest
     {
         public Guid QuestItemId { get; set; }
 

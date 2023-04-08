@@ -13,14 +13,14 @@ namespace QueReal.PL.Mapper
 
         private void CreateQuestMap()
         {
-            CreateMap<QuestCreateModel, QuestCreateDto>();
-            CreateMap<QuestItemCreateModel, QuestItemCreateDto>();
+            CreateMap<QuestCreateRequest, QuestCreateDto>();
+            CreateMap<QuestItemCreateRequest, QuestItemCreateDto>();
 
-            CreateMap<Quest, QuestViewModel>();
-            CreateMap<QuestItem, QuestItemViewModel>();
+            CreateMap<Quest, QuestGetResponse>();
+            CreateMap<QuestItem, QuestItemGetResponse>();
 
-            CreateMap<QuestEditModel, QuestEditDto>();
-            CreateMap<QuestItemEditModel, QuestItemEditDto>();
+            CreateMap<QuestEditRequest, QuestEditDto>();
+            CreateMap<QuestItemEditRequest, QuestItemEditDto>();
         }
     }
 }
