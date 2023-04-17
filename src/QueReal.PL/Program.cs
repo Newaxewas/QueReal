@@ -34,6 +34,8 @@ internal static class Program
             app.UseDeveloperExceptionPage();
         }
 
+        app.UseCors();
+
         app.UseStaticFiles();
 
         app.UseAuthentication();
