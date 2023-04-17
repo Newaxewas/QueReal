@@ -1,0 +1,30 @@
+<ng-container *ngIf="response !== null; else spinner">
+    <mat-list>
+        <h2 matSubheader>Found quests: {{response.totalItemCount}}</h2>
+        <mat-list-item role="listitem" *ngFor="let quest of response.quests">
+            <a href="/quest/view/{{quest.id}}" matListItemTitle>{{quest.title}}</a>
+            <span matListItemLine>
+                <span class="questListItemPropertyInfo">Create time: {{quest.createTime | date}}</span>
+                <span class="questListItemPropertyInfo">Update time: {{quest.updateTime | date}}</span>
+
+                <ng-container *ngIf="quest.approvedTime !== null; then approvedTime else notApprovedText"></ng-container>
+                <ng-template #approvedTime>
+                    <span class="questListItemPropertyInfo">Approve time: {{quest.approvedTime | date}}</span>
+                </ng-template>
+                <ng-template #notApprovedText>
+                    <span class="questListItemPropertyInfo">Not approved</span>
+                </ng-template>
+            </span>
+        </mat-list-item>
+    </mat-list>
+
+    <mat-paginator 
+        [length]="response.totalItemCount" 
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 20, 50]"
+        (page)="onPageUpdated($event)"></mat-paginator>
+</ng-container>
+<ng-template #spinner>
+    <mat-spinner></mat-spinner>
+</ng-template>
