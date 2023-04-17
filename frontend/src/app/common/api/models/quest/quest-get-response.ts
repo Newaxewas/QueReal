@@ -11,5 +11,5 @@ export class QuestGetResponse {
     
     public approvedTime: Date | null = null;
 
-    public questItems: QuestItemGetResponse[] = [];
+    public questItems: QuestItemGetResponse[] = null!;
 }
