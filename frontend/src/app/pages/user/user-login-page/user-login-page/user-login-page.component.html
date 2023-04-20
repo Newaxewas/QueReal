@@ -1,0 +1,41 @@
+<form [formGroup]="userLoginForm" novalidate (ngSubmit)="submit()">
+    <div *ngIf="errorMessage !== null" class="error-message-box">
+        {{errorMessage}}
+    </div>
+    <div>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input type="email" matInput placeholder="example@gmail.com" formControlName="email">
+            <mat-error *ngIf="userLoginForm.controls.email.hasError('required')">
+                Email is required
+            </mat-error>
+            <mat-error *ngIf="userLoginForm.controls.email.hasError('email')">
+                Incorrect email
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input type="password" matInput formControlName="password">
+            <mat-error *ngIf="userLoginForm.controls.password.hasError('required')">
+                Password is required
+            </mat-error>
+            <mat-error *ngIf="userLoginForm.controls.password.hasError('minlength')">
+                Password is too short
+            </mat-error>
+            <mat-error *ngIf="userLoginForm.controls.password.hasError('maxlength')">
+                Password is too long
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div>
+        <mat-checkbox matInput formControlName="remember">Remember</mat-checkbox>
+    </div>
+
+    <div>
+        <button mat-raised-button color="primary" type="submit" [disabled]="userLoginForm.invalid || userLoginForm.untouched || isRequestInProgress">Login</button>
+    </div>
+</form>

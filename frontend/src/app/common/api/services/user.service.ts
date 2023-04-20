@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService extends BaseService {
 
-  public constructor(public httpClient: HttpClient) {
+  public constructor(private httpClient: HttpClient) {
     super();
   }
 
