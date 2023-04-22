@@ -1,0 +1,37 @@
+<div>
+    <h2 class="questItemTitle">{{questItem.title}}</h2>
+    <div *ngIf="errorMessage !== null" class="error-message-box">
+        {{errorMessage}}
+    </div>
+    <form *ngIf="isEditMode; else showModeElements" [formGroup]="questItemEditForm">
+        <mat-form-field>
+            <mat-label>Progress</mat-label>
+            <input type="number" max="100" min="0" step="1" matInput formControlName="progress">
+            <mat-error *ngIf="questItemEditForm.controls.progress.hasError('required')">
+                Progress is required
+            </mat-error>
+            <mat-error *ngIf="questItemEditForm.controls.progress.hasError('min')">
+                Progress must be &gt;= 0
+            </mat-error>
+            <mat-error *ngIf="questItemEditForm.controls.progress.hasError('max')">
+                Progress must be &lt;= 100
+            </mat-error>
+        </mat-form-field>
+        <button mat-mini-fab color="primary" class="questItemActionButton" (click)="saveProgress()"
+            [disabled]="questItemEditForm.invalid || isRequestInProgress">
+            <mat-icon>save</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" class="questItemActionButton" (click)="stopEditProgress()"
+            [disabled]="isRequestInProgress">
+            <mat-icon>cancel</mat-icon>
+        </button>
+    </form>
+    <ng-template #showModeElements>
+        <mat-progress-bar mode="determinate" [value]="questItem.progress"
+            class="questItemProgressBar"></mat-progress-bar>
+        <span>{{questItem.progress}}%</span>
+        <button mat-mini-fab color="primary" class="questItemActionButton" (click)="startEditProgress()" [disabled]="!canEdit">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </ng-template>
+</div>

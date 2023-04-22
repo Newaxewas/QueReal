@@ -1,0 +1,23 @@
+<div *ngIf="errorMessage !== null" class="error-message-box">
+    {{errorMessage}}
+</div>
+<h1>{{quest.title}}</h1>
+<div>
+    <button mat-raised-button color="primary" (click)="approveCompletion()" [disabled]="!canApproveCompletion">
+        <mat-icon>check_circle</mat-icon>
+        Approve
+    </button>
+    <button mat-raised-button color="primary" (click)="editQuest()" [disabled]="!canEdit">
+        <mat-icon>edit</mat-icon>
+        Edit
+    </button>
+    <button mat-raised-button color="primary" (click)="deleteQuest()">
+        <mat-icon>delete</mat-icon>
+        Delete
+    </button>
+</div>
+<div>
+    <app-quest-item *ngFor="let item of quest.questItems" [questItem]="item" [canEdit]="canEdit"
+        (questItemProgressChange)="handleQuestItemProgressChange($event)">
+    </app-quest-item>
+</div>
