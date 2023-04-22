@@ -1,0 +1,49 @@
+<form [formGroup]="questCreateForm" novalidate (ngSubmit)="submit()">
+    <div *ngIf="errorMessage !== null" class="error-message-box">
+        {{errorMessage}}
+    </div>
+    <div>
+        <mat-form-field>
+            <mat-label>Quest title</mat-label>
+            <input type="text" matInput formControlName="questTitle">
+            <mat-error *ngIf="questCreateForm.controls.questTitle.hasError('required')">
+                Quest title required
+            </mat-error>
+            <mat-error *ngIf="questCreateForm.controls.questTitle.hasError('minlength')">
+                Quest title is too short
+            </mat-error>
+            <mat-error *ngIf="questCreateForm.controls.questTitle.hasError('maxlength')">
+                Quest title is too long
+            </mat-error>
+        </mat-form-field>
+        <div class="questItemList" formArrayName="questItems">
+            <div *ngFor="let item of questCreateForm.controls.questItems.controls; let index = index;">
+                <mat-form-field>
+                    <mat-label>Quest item name</mat-label>
+                    <input type="text" matInput [formControlName]="index">
+                    <mat-error *ngIf="item.hasError('required')">
+                        Quest item title required
+                    </mat-error>
+                    <mat-error *ngIf="item.hasError('minlength')">
+                        Quest item is too short
+                    </mat-error>
+                    <mat-error *ngIf="item.hasError('maxlength')">
+                        Quest item is too long
+                    </mat-error>
+                </mat-form-field>
+                <button mat-mini-fab color="primary" class="questItemDeleteButton" (click)="removeQuestItem(index)" *ngIf="questCreateForm.controls.questItems.length > 1">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+            <button mat-raised-button color="primary" (click)="addQuestItem()">
+                <mat-icon>add</mat-icon>
+                <span>Add quest item</span>
+            </button>
+        </div>
+    </div>
+
+    <div>
+        <button mat-raised-button color="primary" type="submit"
+            [disabled]="questCreateForm.invalid || questCreateForm.untouched || isRequestInProgress">Create</button>
+    </div>
+</form>
