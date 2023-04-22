@@ -3,5 +3,5 @@ export class RegisterRequest {
 
     public password: string = null!;
 
-    public comfirmPassword: string = null!;
+    public confirmPassword: string = null!;
 }

@@ -14,8 +14,8 @@ export class QuestService extends BaseService {
   }
 
   public get(request: QuestGetRequest): Observable<QuestGetResponse> {
-    const params = new HttpParams();
-    params.set("id", request.id);
+    const params = new HttpParams()
+      .set("id", request.id);
 
     return this.httpClient.get<QuestGetResponse>(this.getUrl("/quest/get"), { params })
   }
@@ -29,10 +29,7 @@ export class QuestService extends BaseService {
   }
 
   public delete(request: QuestDeleteRequest): Observable<unknown> {
-    const params = new HttpParams();
-    params.set("id", request.id);
-
-    return this.httpClient.get(this.getUrl("/quest/get"), { params })
+    return this.httpClient.delete(this.getUrl("/quest/delete"), { body: request })
   }
 
   public setProgress(request: QuestSetProgressRequest): Observable<unknown> {
