@@ -12,6 +12,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthorizationInterceptor } from './interceptors/authorization.interceptor';
 import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common';
 import { MatButtonModule } from "@angular/material/button";
+import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,11 @@ import { MatButtonModule } from "@angular/material/button";
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthorizationInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
       multi: true,
     },
     {
