@@ -29,7 +29,7 @@ export class QuestItemComponent implements OnInit {
   @Output()
   public questItemProgressChange = new EventEmitter<QuestItemProgressChangedEvent>();
 
-  constructor(private questService: QuestService) { }
+  public constructor(private questService: QuestService) { }
 
   public ngOnInit(): void {
     this.createQuestItemEditForm();

@@ -5,7 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './no-access-page.component.html',
   styleUrls: ['./no-access-page.component.css']
 })
-
-export class NoAccessPageComponent {
-
-}
+export class NoAccessPageComponent {}

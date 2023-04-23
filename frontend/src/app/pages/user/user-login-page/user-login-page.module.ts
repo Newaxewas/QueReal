@@ -29,7 +29,4 @@ const routes: Routes = [
     MatButtonModule,
   ]
 })
-
-export class UserLoginPageModule {
-
-}
+export class UserLoginPageModule {}

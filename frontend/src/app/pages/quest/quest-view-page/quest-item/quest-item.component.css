@@ -1,12 +1,8 @@
-.questItemProgressBar {
+.quest-item-progress-bar {
     width: 200px;
     display: inline-block;
 }
 
-.questItemTitle {
+.quest-item-title {
     margin-bottom: 0px;
-}
-
-.questItemActionButton {
-    margin-left: 5px;
 }

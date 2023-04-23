@@ -11,7 +11,6 @@ import { getErrorMessage } from 'src/app/common/helpers';
   templateUrl: './user-login-page.component.html',
   styleUrls: ['./user-login-page.component.css']
 })
-
 export class UserLoginPageComponent implements OnInit {
   public errorMessage: string | null = null;
   public isRequestInProgress: boolean = false;
@@ -22,13 +21,13 @@ export class UserLoginPageComponent implements OnInit {
     remember: FormControl<boolean>
   }> = null!;
 
-  constructor(private userService: UserService, private router: Router) { }
+  public constructor(private userService: UserService, private router: Router) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.createLoginForm();
   }
 
-  public submit() {
+  public submit(): void {
     if (this.userLoginForm.invalid) {
       return;
     }
