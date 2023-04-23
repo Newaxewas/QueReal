@@ -57,6 +57,7 @@ namespace QueReal.BLL.Services
 
             quest.Title = questEditDto.Title;
             quest.QuestItems = GetUpdatedQuestItems(quest.QuestItems, questEditDto.QuestItems);
+            quest.UpdateTime = DateTime.UtcNow;
 
             await repository.UpdateAsync(quest);
         }
