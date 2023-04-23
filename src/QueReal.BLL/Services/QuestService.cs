@@ -57,6 +57,7 @@ namespace QueReal.BLL.Services
 
             quest.Title = questEditDto.Title;
             quest.QuestItems = GetUpdatedQuestItems(quest.QuestItems, questEditDto.QuestItems);
+            quest.UpdateTime = DateTime.UtcNow;
 
             await repository.UpdateAsync(quest);
         }
@@ -154,7 +155,7 @@ namespace QueReal.BLL.Services
                     (questItem, newQuestItemDto) => (questItem, newQuestItemDto.Title))
                 .Concat(
                     newQuestItemsDtos
-                        .Where(x => x.Id == Guid.Empty)
+                        .Where(x => x.Id == null)
                         .Select(x => ((QuestItem)null, x.Title)));
 
             var result = new List<QuestItem>();

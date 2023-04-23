@@ -4,29 +4,19 @@ namespace QueReal.PL.Test
 {
     internal static class PlTestHelper
     {
-
-        public static void AssertCorrectRedirectToActionResult(
-            ActionResult result,
-            string controllerName,
-            string actionName)
+        public static void AssertCorrectOkResult(ActionResult result)
         {
-            result.Should().BeOfType<RedirectToActionResult>();
-
-            var redirectResult = (RedirectToActionResult)result;
-            redirectResult.ControllerName.Should().Be(controllerName);
-            redirectResult.ActionName.Should().Be(actionName);
+            result.Should().BeOfType<OkResult>();
         }
 
-        public static void AssertCorrectViewResult(
-            ActionResult actionResult,
-            string expectedViewName,
-            object expectedModel)
+        public static void AssertCorrectUnauthorizedResult(ActionResult result)
         {
-            actionResult.Should().BeOfType<ViewResult>();
+            result.Should().BeOfType<UnauthorizedObjectResult>();
+        }
 
-            var viewResult = (ViewResult)actionResult;
-            viewResult.ViewName.Should().Be(expectedViewName);
-            viewResult.Model.Should().Be(expectedModel);
+        public static void AssertCorrectBadRequestResult(ActionResult result)
+        {
+            result.Should().BeOfType<BadRequestObjectResult>();
         }
     }
 }

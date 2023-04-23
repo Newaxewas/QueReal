@@ -34,17 +34,14 @@ internal static class Program
             app.UseDeveloperExceptionPage();
         }
 
+        app.UseCors();
+
         app.UseStaticFiles();
 
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.UseRouting();
-
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
-        });
+        app.MapControllers();
 
         return app;
     }

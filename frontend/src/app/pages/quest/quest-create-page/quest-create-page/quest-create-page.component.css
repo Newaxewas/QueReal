@@ -1,0 +1,8 @@
+.quest-item-list{
+    padding: 10px;
+    border: groove;
+    border-color: gray;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    width: max-content;
+}

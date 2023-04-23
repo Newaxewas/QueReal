@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using QueReal.BLL.Mapper;
@@ -21,6 +22,18 @@ namespace QueReal.PL
                 config.Filters.Add<SaveChangesFilter>();
             });
 
+            services.AddCors(config =>
+            {
+                config.AddDefaultPolicy(policy =>
+                {
+                    policy
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                        .WithOrigins("http://localhost:4200");
+                });
+            });
+
             services.AddAutoMapper(config =>
             {
                 config.AddProfile<BllProfile>();
@@ -29,8 +42,14 @@ namespace QueReal.PL
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = "/User/Login";
-                options.LogoutPath = "/User/Logout";
+                options.Events = new()
+                {
+                    OnRedirectToLogin = ctx =>
+                    {
+                        ctx.Response.StatusCode = 401;
+                        return Task.CompletedTask;
+                    }
+                };
             });
 
             return services;

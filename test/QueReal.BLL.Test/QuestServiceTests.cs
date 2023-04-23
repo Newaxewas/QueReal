@@ -195,6 +195,18 @@ namespace QueReal.BLL.Test
         }
 
         [Test]
+        public async Task EditAsync_WhenValidationsPassed_SetUpdateTime()
+        {
+            SetQuestCanBeFound(true);
+            SetUserHasAccessToQuest(true);
+            SetQuestCompletionNotApproved(true);
+
+            await questService.EditAsync(questEditDto);
+
+            quest.UpdateTime.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(5));
+        }
+
+        [Test]
         public async Task EditAsync_WhenValidationsPassed_UpdateQuest()
         {
             SetQuestCanBeFound(true);
@@ -570,7 +582,7 @@ namespace QueReal.BLL.Test
                     },
                     new QuestItemEditDto()
                     {
-                        Id = Guid.Empty,
+                        Id = null,
                         Title = newQuestItemTitles[1]
                     }
                 }

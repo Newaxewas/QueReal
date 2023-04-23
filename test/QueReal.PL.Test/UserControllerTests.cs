@@ -7,8 +7,8 @@ namespace QueReal.PL.Test
     [TestFixture]
     public class UserControllerTests
     {
-        private LoginFormModel loginFormModel;
-        private RegisterFormModel registerFormModel;
+        private LoginRequest loginRequest;
+        private RegisterRequest registerRequest;
 
         private Mock<IUserService> userServiceMock;
 
@@ -17,8 +17,8 @@ namespace QueReal.PL.Test
         [SetUp]
         public void SetUp()
         {
-            loginFormModel = CreateLoginFormModel();
-            registerFormModel = CreateRegisterFormModel();
+            loginRequest = CreateLoginRequest();
+            registerRequest = CreateRegisterRequest();
 
             userServiceMock = new();
 
@@ -26,84 +26,43 @@ namespace QueReal.PL.Test
         }
 
         [Test]
-        public void Login_Get_ReturnViewResult()
+        public async Task Login_Post_WhenSignInFailed_ReturnUnauthorizedResult()
         {
-            var result = userController.Login();
-
-            PlTestHelper.AssertCorrectViewResult(result, null, null);
-        }
-
-        [Test]
-        public async Task Login_Post_WhenModelStateNotIsValid_ReturnViewResult()
-        {
-            SetModelStateIsValid(false);
-            SetSignInSuccessful(true);
-
-            var result = await userController.Login(loginFormModel);
-
-            PlTestHelper.AssertCorrectViewResult(result, null, loginFormModel);
-        }
-
-        [Test]
-        public async Task Login_Post_WhenSignInFailed_ReturnViewResult()
-        {
-            SetModelStateIsValid(true);
             SetSignInSuccessful(false);
 
-            var result = await userController.Login(loginFormModel);
+            var result = await userController.Login(loginRequest);
 
-            PlTestHelper.AssertCorrectViewResult(result, null, loginFormModel);
+            PlTestHelper.AssertCorrectUnauthorizedResult(result);
         }
 
         [Test]
-        public async Task Login_Post_WhenSignInSuccessful_ReturnRedirectToActionResult()
+        public async Task Login_Post_WhenSignInSuccessful_ReturnOkResult()
         {
-            SetModelStateIsValid(true);
             SetSignInSuccessful(true);
 
-            var result = await userController.Login(loginFormModel);
+            var result = await userController.Login(loginRequest);
 
-            PlTestHelper.AssertCorrectRedirectToActionResult(result, "Home", "Index");
+            PlTestHelper.AssertCorrectOkResult(result);
         }
 
         [Test]
-        public void Register_Get_ReturnViewResult()
+        public async Task Register_Post_WhenSignInFailed_ReturnBadRequestResult()
         {
-            var result = userController.Register();
-            PlTestHelper.AssertCorrectViewResult(result, null, null);
-        }
-
-        [Test]
-        public async Task Register_Post_WhenModelStateNotIsValid_ReturnViewResult()
-        {
-            SetModelStateIsValid(false);
-            SetRegisterSuccessful(true);
-
-            var result = await userController.Register(registerFormModel);
-
-            PlTestHelper.AssertCorrectViewResult(result, null, registerFormModel);
-        }
-
-        [Test]
-        public async Task Register_Post_WhenSignInFailed_ReturnViewResult()
-        {
-            SetModelStateIsValid(true);
             SetRegisterSuccessful(false);
 
-            var result = await userController.Register(registerFormModel);
+            var result = await userController.Register(registerRequest);
 
-            PlTestHelper.AssertCorrectViewResult(result, null, registerFormModel);
+            PlTestHelper.AssertCorrectBadRequestResult(result);
         }
 
         [Test]
-        public async Task Register_Post_WhenSignInSuccessful_ReturnRedirectToActionResult()
+        public async Task Register_Post_WhenSignInSuccessful_ReturnOkResult()
         {
-            SetModelStateIsValid(true);
             SetRegisterSuccessful(true);
 
-            var result = await userController.Register(registerFormModel);
+            var result = await userController.Register(registerRequest);
 
-            PlTestHelper.AssertCorrectRedirectToActionResult(result, "User", "Login");
+            PlTestHelper.AssertCorrectOkResult(result);
         }
 
         [Test]
@@ -115,19 +74,11 @@ namespace QueReal.PL.Test
         }
 
         [Test]
-        public async Task Logout_Get_ReturnRedirectToActionResult()
+        public async Task Logout_Get_ReturnOkResult()
         {
             var result = await userController.Logout();
 
-            PlTestHelper.AssertCorrectRedirectToActionResult(result, "Home", "Index");
-        }
-
-        private void SetModelStateIsValid(bool isValid)
-        {
-            if (!isValid)
-            {
-                userController.ModelState.AddModelError(string.Empty, "Test error");
-            }
+            PlTestHelper.AssertCorrectOkResult(result);
         }
 
         private void SetSignInSuccessful(bool isSuccessful)
@@ -135,9 +86,9 @@ namespace QueReal.PL.Test
             userServiceMock
                 .Setup(
                     x => x.SignInAsync(
-                        loginFormModel.Email,
-                        loginFormModel.Password,
-                        loginFormModel.Remember))
+                        loginRequest.Email,
+                        loginRequest.Password,
+                        loginRequest.Remember))
                 .ReturnsAsync(isSuccessful);
         }
         private void SetRegisterSuccessful(bool isSuccessful)
@@ -145,12 +96,12 @@ namespace QueReal.PL.Test
             userServiceMock
                 .Setup(
                     x => x.RegisterAsync(
-                        registerFormModel.Email,
-                        registerFormModel.Password))
+                        registerRequest.Email,
+                        registerRequest.Password))
                 .ReturnsAsync(isSuccessful);
         }
 
-        private static LoginFormModel CreateLoginFormModel()
+        private static LoginRequest CreateLoginRequest()
         {
             return new()
             {
@@ -160,7 +111,7 @@ namespace QueReal.PL.Test
             };
         }
 
-        private static RegisterFormModel CreateRegisterFormModel()
+        private static RegisterRequest CreateRegisterRequest()
         {
             return new()
             {
