@@ -6,7 +6,6 @@ import { LoginRequest } from 'src/app/common/api/models/user';
 import { UserService } from 'src/app/common/api/services';
 import { getErrorMessage } from 'src/app/common/helpers';
 
-
 @Component({
   selector: 'app-user-login-page',
   templateUrl: './user-login-page.component.html',

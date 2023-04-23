@@ -27,8 +27,6 @@ export class QuestCreatePageComponent {
     this.createQuestCreateForm();
   }
 
-
-
   public submit() {
     if (this.questCreateForm.invalid) {
       return;

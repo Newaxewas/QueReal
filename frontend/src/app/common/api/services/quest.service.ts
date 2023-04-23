@@ -1,7 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs';
-import { QuestApproveCompletionRequest, QuestCreateRequest, QuestCreateResponse, QuestDeleteRequest, QuestEditRequest, QuestGetAllRequest, QuestGetAllResponse, QuestGetRequest, QuestGetResponse, QuestSetProgressRequest } from '../models/quest';
+import {
+  QuestApproveCompletionRequest,
+  QuestCreateRequest,
+  QuestCreateResponse,
+  QuestDeleteRequest,
+  QuestEditRequest,
+  QuestGetAllRequest,
+  QuestGetAllResponse,
+  QuestGetRequest,
+  QuestGetResponse,
+  QuestSetProgressRequest
+} from '../models/quest';
 import { BaseService } from './base.service';
 
 @Injectable({
