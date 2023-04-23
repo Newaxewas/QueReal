@@ -25,9 +25,9 @@ export class QuestEditPageComponent {
     }>>;
   }> = null!;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private questService: QuestService) { }
+  public constructor(private activatedRoute: ActivatedRoute, private router: Router, private questService: QuestService) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.createQuestEditForm();
     this.activatedRoute.data.subscribe(({ quest }) => {
       this.quest = quest;
@@ -35,7 +35,7 @@ export class QuestEditPageComponent {
     });
   }
 
-  public submit() {
+  public submit(): void {
     if (this.questEditForm.invalid) {
       return;
     }
@@ -61,18 +61,6 @@ export class QuestEditPageComponent {
         next: this.handleEditSuccess.bind(this),
         error: this.handleEditError.bind(this)
       });
-  }
-
-  private createQuestEditForm(): void {
-    this.questEditForm = new FormGroup({
-      questTitle: new FormControl<string>("", { nonNullable: true, validators: [Validators.required, Validators.minLength(3), Validators.maxLength(50)] }),
-      questItems: new FormArray<FormGroup<{
-        id: FormControl<string | null>,
-        title: FormControl<string>
-      }>>([]),
-    });
-
-    this.addQuestItem();
   }
 
   public addQuestItem(): void {
@@ -102,6 +90,18 @@ export class QuestEditPageComponent {
       questItemGroup.controls.id.setValue(questItemValue.id);
       questItemGroup.controls.title.setValue(questItemValue.title); 
     }
+  }
+
+  private createQuestEditForm(): void {
+    this.questEditForm = new FormGroup({
+      questTitle: new FormControl<string>("", { nonNullable: true, validators: [Validators.required, Validators.minLength(3), Validators.maxLength(50)] }),
+      questItems: new FormArray<FormGroup<{
+        id: FormControl<string | null>,
+        title: FormControl<string>
+      }>>([]),
+    });
+
+    this.addQuestItem();
   }
 
   private handleEditSuccess(): void {

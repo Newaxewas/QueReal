@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService extends BaseService {
-
   public constructor(private httpClient: HttpClient) {
     super();
   }
@@ -24,5 +23,4 @@ export class UserService extends BaseService {
   public logout(): Observable<unknown> {
     return this.httpClient.post(this.getUrl("/user/logout"), {});
   }
-
 }

@@ -19,7 +19,6 @@ import { BaseService } from './base.service';
   providedIn: 'root'
 })
 export class QuestService extends BaseService {
-
   public constructor(private httpClient: HttpClient) {
     super();
   }

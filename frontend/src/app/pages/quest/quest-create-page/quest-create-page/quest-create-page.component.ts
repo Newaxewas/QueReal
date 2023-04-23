@@ -21,13 +21,13 @@ export class QuestCreatePageComponent {
     questItems: FormArray<FormControl<string>>;
   }> = null!;
 
-  constructor(private questService: QuestService, private router: Router) { }
+  public constructor(private questService: QuestService, private router: Router) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.createQuestCreateForm();
   }
 
-  public submit() {
+  public submit(): void {
     if (this.questCreateForm.invalid) {
       return;
     }
@@ -53,15 +53,6 @@ export class QuestCreatePageComponent {
       });
   }
 
-  private createQuestCreateForm(): void {
-    this.questCreateForm = new FormGroup({
-      questTitle: new FormControl<string>("", { nonNullable: true, validators: [Validators.required, Validators.minLength(3), Validators.maxLength(50)] }),
-      questItems: new FormArray<FormControl<string>>([]),
-    });
-
-    this.addQuestItem();
-  }
-
   public addQuestItem(): void {
     this.questCreateForm.controls.questItems
       .push(new FormControl<string>("", { nonNullable: true, validators: [Validators.required, Validators.minLength(3), Validators.maxLength(40)] }));
@@ -70,6 +61,15 @@ export class QuestCreatePageComponent {
   public removeQuestItem(index: number): void {
     this.questCreateForm.controls.questItems
       .removeAt(index);
+  }
+
+  private createQuestCreateForm(): void {
+    this.questCreateForm = new FormGroup({
+      questTitle: new FormControl<string>("", { nonNullable: true, validators: [Validators.required, Validators.minLength(3), Validators.maxLength(50)] }),
+      questItems: new FormArray<FormControl<string>>([]),
+    });
+
+    this.addQuestItem();
   }
 
   private handleCreateSuccess(response: QuestCreateResponse): void {

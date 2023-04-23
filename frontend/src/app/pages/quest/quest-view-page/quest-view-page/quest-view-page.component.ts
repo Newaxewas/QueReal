@@ -11,29 +11,28 @@ import { getErrorMessage } from 'src/app/common/helpers';
   templateUrl: './quest-view-page.component.html',
   styleUrls: ['./quest-view-page.component.css']
 })
-
 export class QuestViewPageComponent implements OnInit {
   public isRequestInProgress = false;
   public errorMessage: string | null = null;
 
   public quest: QuestGetResponse = null!;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private questService: QuestService) { }
+  public constructor(private activatedRoute: ActivatedRoute, private router: Router, private questService: QuestService) { }
 
-  get canApproveCompletion() {
+  public get canApproveCompletion(): boolean {
     return this.quest.approvedTime === null
       && this.quest.questItems.every(questItem => questItem.progress === 100);
   }
 
-  get canEdit() {
+  public get canEdit(): boolean {
     return this.quest.approvedTime === null;
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ quest }) => this.quest = quest);
   }
 
-  handleQuestItemProgressChange(progressChangedEvent: QuestItemProgressChangedEvent): void {
+  public handleQuestItemProgressChange(progressChangedEvent: QuestItemProgressChangedEvent): void {
     const questItem = this.quest.questItems.find(questItem => questItem.id === progressChangedEvent.questItemId)!;
 
     questItem.progress = progressChangedEvent.newProgress;
@@ -84,7 +83,7 @@ export class QuestViewPageComponent implements OnInit {
 
   private handleApproveCompletionSuccess(): void {
     this.isRequestInProgress = false;
-    
+
     this.reloadQuestData();
   }
 

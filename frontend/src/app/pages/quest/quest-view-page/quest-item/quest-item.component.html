@@ -1,5 +1,5 @@
 <div>
-    <h2 class="questItemTitle">{{questItem.title}}</h2>
+    <h2 class="quest-item-title">{{questItem.title}}</h2>
     <div *ngIf="errorMessage !== null" class="error-message-box">
         {{errorMessage}}
     </div>
@@ -17,20 +17,20 @@
                 Progress must be &lt;= 100
             </mat-error>
         </mat-form-field>
-        <button mat-mini-fab color="primary" class="questItemActionButton" (click)="saveProgress()"
+        <button mat-mini-fab color="primary"  (click)="saveProgress()"
             [disabled]="questItemEditForm.invalid || isRequestInProgress">
             <mat-icon>save</mat-icon>
         </button>
-        <button mat-mini-fab color="primary" class="questItemActionButton" (click)="stopEditProgress()"
+        <button mat-mini-fab color="primary"  (click)="stopEditProgress()"
             [disabled]="isRequestInProgress">
             <mat-icon>cancel</mat-icon>
         </button>
     </form>
     <ng-template #showModeElements>
         <mat-progress-bar mode="determinate" [value]="questItem.progress"
-            class="questItemProgressBar"></mat-progress-bar>
+            class="quest-item-progress-bar"></mat-progress-bar>
         <span>{{questItem.progress}}%</span>
-        <button mat-mini-fab color="primary" class="questItemActionButton" (click)="startEditProgress()" [disabled]="!canEdit">
+        <button mat-mini-fab color="primary"  (click)="startEditProgress()" [disabled]="!canEdit">
             <mat-icon>edit</mat-icon>
         </button>
     </ng-template>

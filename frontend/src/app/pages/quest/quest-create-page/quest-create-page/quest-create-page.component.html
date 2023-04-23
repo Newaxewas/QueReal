@@ -18,7 +18,7 @@
                 Quest title is too long
             </mat-error>
         </mat-form-field>
-        <div class="questItemList" formArrayName="questItems">
+        <div class="quest-item-list" formArrayName="questItems">
             <div *ngFor="let item of questCreateForm.controls.questItems.controls; let index = index;">
                 <mat-form-field>
                     <mat-label>Quest item name</mat-label>
@@ -33,7 +33,7 @@
                         Quest item is too long
                     </mat-error>
                 </mat-form-field>
-                <button mat-mini-fab color="primary" class="questItemDeleteButton" (click)="removeQuestItem(index)" *ngIf="questCreateForm.controls.questItems.length > 1">
+                <button mat-mini-fab color="primary" (click)="removeQuestItem(index)" *ngIf="questCreateForm.controls.questItems.length > 1">
                     <mat-icon>delete</mat-icon>
                 </button>
             </div>

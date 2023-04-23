@@ -12,8 +12,6 @@ import { getErrorMessage } from 'src/app/common/helpers';
   templateUrl: './user-register-page.component.html',
   styleUrls: ['./user-register-page.component.css']
 })
-
-
 export class UserRegisterPageComponent implements OnInit {
   public errorMessage: string | null = null;
   public isRequestInProgress: boolean = false;
@@ -24,13 +22,13 @@ export class UserRegisterPageComponent implements OnInit {
     confirmPassword: FormControl<string>,
   }> = null!;
 
-  constructor(private userService: UserService, private router: Router) { }
+  public constructor(private userService: UserService, private router: Router) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.createRegisterForm();
   }
   
-  public submit() {
+  public submit(): void {
     if (this.userRegisterForm.invalid) {
       return;
     }

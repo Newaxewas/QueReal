@@ -5,7 +5,6 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class BaseService {
-
   protected constructor() { }
 
   protected getUrl(relativeUrl: string): string {
