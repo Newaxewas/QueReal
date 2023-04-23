@@ -64,14 +64,14 @@ export class UserRegisterPageComponent implements OnInit {
   }
 
   private handleRegisterSuccess(): void {
-    this.router.navigateByUrl("/user/login");
-
     this.isRequestInProgress = false;
+
+    this.router.navigateByUrl("/user/login");
   }
 
   private handleRegisterError(error: HttpErrorResponse): void {
-    this.errorMessage = error.status === 0 ? "Connection error" : "Check your login and password";
-
     this.isRequestInProgress = false;
+
+    this.errorMessage = error.status === 0 ? "Connection error" : "Check your login and password";
   }
 }

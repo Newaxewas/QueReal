@@ -104,14 +104,14 @@ export class QuestEditPageComponent {
   }
 
   private handleEditSuccess(): void {
-    this.router.navigateByUrl(`/quest/view/${this.quest.id}`);
-
     this.isRequestInProgress = false;
+
+    this.router.navigateByUrl(`/quest/view/${this.quest.id}`);
   }
 
   private handleEditError(error: HttpErrorResponse): void {
-    this.errorMessage = error.status === 0 ? "Connection error" : "Something went wrong";
-
     this.isRequestInProgress = false;
+
+    this.errorMessage = error.status === 0 ? "Connection error" : "Something went wrong";
   }
 }

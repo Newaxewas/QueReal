@@ -100,8 +100,8 @@ export class QuestViewPageComponent implements OnInit {
   }
 
   private handleError(error: HttpErrorResponse): void {
-    this.errorMessage = error.status === 0 ? "Connection error" : "Something went wrong";
-
     this.isRequestInProgress = false;
+
+    this.errorMessage = error.status === 0 ? "Connection error" : "Something went wrong";
   }
 }

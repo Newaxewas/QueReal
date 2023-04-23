@@ -59,14 +59,14 @@ export class UserLoginPageComponent implements OnInit {
   }
 
   private handleLoginSuccess(): void {
-    this.router.navigateByUrl("/");
-
     this.isRequestInProgress = false;
+
+    this.router.navigateByUrl("/");
   }
 
   private handleLoginError(error: HttpErrorResponse): void {
-    this.errorMessage = error.status === 0 ? "Connection error" : "Check your login and password";
-
     this.isRequestInProgress = false;
+
+    this.errorMessage = error.status === 0 ? "Connection error" : "Check your login and password";
   }
 }
