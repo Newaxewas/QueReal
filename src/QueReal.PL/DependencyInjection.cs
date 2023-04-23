@@ -22,6 +22,18 @@ namespace QueReal.PL
                 config.Filters.Add<SaveChangesFilter>();
             });
 
+            services.AddCors(config =>
+            {
+                config.AddDefaultPolicy(policy =>
+                {
+                    policy
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                        .WithOrigins("http://localhost:4200");
+                });
+            });
+
             services.AddAutoMapper(config =>
             {
                 config.AddProfile<BllProfile>();

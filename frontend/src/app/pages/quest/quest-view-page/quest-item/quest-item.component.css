@@ -1,0 +1,12 @@
+.questItemProgressBar {
+    width: 200px;
+    display: inline-block;
+}
+
+.questItemTitle {
+    margin-bottom: 0px;
+}
+
+.questItemActionButton {
+    margin-left: 5px;
+}

@@ -1,0 +1,7 @@
+.pageContent {
+    margin: 10px;
+}
+
+.empty-spacer {
+    flex: 1 1 auto;
+}
