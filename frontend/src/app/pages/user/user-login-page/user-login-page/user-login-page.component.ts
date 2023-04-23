@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginRequest } from 'src/app/common/api/models/user';
 import { UserService } from 'src/app/common/api/services';
+import { getErrorMessage } from 'src/app/common/helpers';
 
 
 @Component({
@@ -67,6 +68,6 @@ export class UserLoginPageComponent implements OnInit {
   private handleLoginError(error: HttpErrorResponse): void {
     this.isRequestInProgress = false;
 
-    this.errorMessage = error.status === 0 ? "Connection error" : "Check your login and password";
+    this.errorMessage = getErrorMessage(error);;
   }
 }

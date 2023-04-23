@@ -4,6 +4,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { QuestCreateRequest, QuestCreateResponse, QuestItemCreateRequest } from 'src/app/common/api/models/quest';
 import { QuestService } from 'src/app/common/api/services';
+import { getErrorMessage } from 'src/app/common/helpers';
 
 @Component({
   selector: 'app-quest-create-page',
@@ -82,6 +83,6 @@ export class QuestCreatePageComponent {
   private handleCreateError(error: HttpErrorResponse): void {
     this.isRequestInProgress = false;
 
-    this.errorMessage = error.status === 0 ? "Connection error" : "Something went wrong";
+    this.errorMessage = getErrorMessage(error);;
   }
 }

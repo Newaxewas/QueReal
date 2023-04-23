@@ -6,6 +6,8 @@ import { MatListModule } from "@angular/material/list";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { AppCommonModule } from 'src/app/common/app-common.module';
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
 
 const routes: Routes = [
   {
@@ -25,6 +27,8 @@ const routes: Routes = [
     MatListModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatButtonModule,
+    MatIconModule,
   ]
 })
 export class QuestListPageModule {

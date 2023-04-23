@@ -4,6 +4,7 @@ import { QuestApproveCompletionRequest, QuestDeleteRequest, QuestGetRequest, Que
 import { QuestItemProgressChangedEvent } from '../quest-item/quest-item-progress-changed-event';
 import { QuestService } from 'src/app/common/api/services';
 import { HttpErrorResponse } from '@angular/common/http';
+import { getErrorMessage } from 'src/app/common/helpers';
 
 @Component({
   selector: 'app-quest-view-page',
@@ -102,6 +103,6 @@ export class QuestViewPageComponent implements OnInit {
   private handleError(error: HttpErrorResponse): void {
     this.isRequestInProgress = false;
 
-    this.errorMessage = error.status === 0 ? "Connection error" : "Something went wrong";
+    this.errorMessage = getErrorMessage(error);;
   }
 }

@@ -28,7 +28,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             this.router.navigateByUrl("/exception/not-found", {skipLocationChange: true});
             break;
         }
-        
+
         return new Observable<HttpEvent<any>>();
       }));
   }

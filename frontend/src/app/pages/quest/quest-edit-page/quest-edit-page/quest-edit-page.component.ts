@@ -4,6 +4,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuestEditRequest, QuestGetResponse, QuestItemEditRequest } from 'src/app/common/api/models/quest';
 import { QuestService } from 'src/app/common/api/services';
+import { getErrorMessage } from 'src/app/common/helpers';
 
 @Component({
   selector: 'app-quest-edit-page',
@@ -112,6 +113,6 @@ export class QuestEditPageComponent {
   private handleEditError(error: HttpErrorResponse): void {
     this.isRequestInProgress = false;
 
-    this.errorMessage = error.status === 0 ? "Connection error" : "Something went wrong";
+    this.errorMessage = getErrorMessage(error);;
   }
 }
