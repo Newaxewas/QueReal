@@ -1,3 +1,5 @@
+<h1>Login</h1>
+
 <form [formGroup]="userLoginForm" novalidate (ngSubmit)="submit()">
     <div *ngIf="errorMessage !== null" class="error-message-box">
         {{errorMessage}}

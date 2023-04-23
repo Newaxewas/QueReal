@@ -1,3 +1,5 @@
+<h1>Edit</h1>
+
 <form [formGroup]="questEditForm" novalidate (ngSubmit)="submit()">
     <div *ngIf="errorMessage !== null" class="error-message-box">
         {{errorMessage}}
