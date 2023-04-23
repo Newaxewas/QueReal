@@ -29,7 +29,7 @@ export class QuestViewPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ questGetResponse }) => this.quest = questGetResponse);
+    this.activatedRoute.data.subscribe(({ quest }) => this.quest = quest);
   }
 
   handleQuestItemProgressChange(progressChangedEvent: QuestItemProgressChangedEvent): void {

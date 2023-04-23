@@ -1,5 +1,5 @@
 export class QuestItemEditRequest {
-    public id: string = null!;
+    public id: string | null = null;
 
     public title: string = null!;
 }

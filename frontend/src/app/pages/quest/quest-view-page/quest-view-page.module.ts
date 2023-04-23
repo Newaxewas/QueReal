@@ -15,7 +15,7 @@ const routes: Routes = [
   {
     path: '',
     component: QuestViewPageComponent,
-    resolve: { questGetResponse: questResolver },
+    resolve: { quest: questResolver },
   }
 ];
 
